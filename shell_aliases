@@ -1,0 +1,251 @@
+#!/bin/bash
+
+# Function definitions
+function open_func() {
+  old_IFS=$IFS
+  IFS='
+  '
+  for k in "$@"; do
+    "$open_cmd" "$k" &>/dev/null &
+    disown
+  done
+  IFS=$old_IFS
+}
+# unset open_cmd
+
+function seas_func() {
+  serverBase='fischer@lnxsrv0'
+  serverName=""
+  if [[ -z "$1" ]]; then
+    serverName='fischer@ugrad.seas.ucla.edu'
+  else
+    serverName="$serverBase$1".seas.ucla.edu
+  fi
+  ssh -X $serverName
+}
+
+function func_cd() {
+  # This is a function to help cd jump back some number of directories
+  # Usage: cd dir/ # jump to that directory
+  #    cd 3 # jump back 3 directories
+
+  INT_REGEX="^[0-9]+$"
+  if [[ "$1" =~ $INT_REGEX ]]; then
+    if [[ -d "$1" ]]; then
+      # We should actually change to this directory!
+      \cd "$1"
+      return $?
+    fi
+    count=$1
+    target=""
+    while [[ $count -gt 0 ]]; do
+      target="$target"../
+      let count--
+    done
+    echo "cd $target"
+    \cd $target
+    return $?
+  fi
+
+  # Call actual cd instead of the alias (don't surround "$1" in quotes)
+  if [ -z "$1" ]; then
+    \cd; return $?
+  fi
+  \cd "$1"
+  return $?
+}
+
+function play_album() {
+  # This will play an album using vlc media player if it is installed
+  type vlc &>/dev/null
+  if [[ $? != 0 ]]; then
+    echo "VLC media player must be installed" >&2
+    return 1
+  fi
+
+  (vlc "$@" &>/dev/null &)
+}
+
+function wifi() {
+  # Give control over the wifi radio
+  arg=""
+  case $1 in
+    restart)
+      ;&
+    fix)
+      ;&
+    -r)
+      arg="restart"
+      ;;
+    start)
+      arg="start"
+      ;;
+    stop)
+      arg="stop"
+      ;;
+  esac
+  if [ ! -z "$arg" ]; then
+    sudo service network-manager "$arg"
+  fi
+}
+
+function lst() {
+  if [ -z "$1" ]; then
+    ext="txt"
+  else
+    ext="$1"
+  fi
+  echo 'ls *.'"$ext"
+  ls *.$ext
+}
+
+function vimgrep() {
+  if [ -z "$2" ]; then
+    args="+vimgrep '$1' "'*'
+  else
+    args="+vimgrep '$1' ${*:2}"
+  fi
+  echo "${args}"
+  vim "${args}"
+}
+
+function check_swaps() {
+  local readonly VIM_D="${HOME}/.vim"
+  local readonly SWAP_D="tmp"
+
+  local readonly old_IFS=${IFS}
+  IFS='
+  '
+
+  local files=($(ls -A "${VIM_D}/${SWAP_D}/"))
+
+  local status=0
+  if [[ ${#files[@]} -ne 0 ]]; then
+    echo "Resolve the following swap files:"
+    echo ${files[@]}
+    status=1
+  fi
+  IFS=${old_IFS}
+  return ${status}
+}
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
+
+  alias grep='grep --color=auto -d skip'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lss='ls -Ad .*'
+
+# Add an "alert" alias for long running commands.  Use like so:
+# sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+#########################################
+## Linux specific
+#########################################
+
+if [[ "$(uname -s)" == "Linux" ]]; then
+  open_cmd='xdg-open'
+  type chromium-browser &>/dev/null
+  if [[ $? == 0 ]]; then
+    alias browse='( chromium-browser &>/dev/null & )'
+    alias bro=browse
+  fi
+
+  type libreoffice &>/dev/null
+  if [[ $? != 0 ]]; then
+    alias msword=office_func
+  fi
+
+  # Copy/pasting
+  type xsel &>/dev/null
+  if [[ $? == 0 ]]; then
+    # We can copy/paste with commands
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+  fi
+
+  # Shutdown/reboot (safely)
+  alias turnoff='sudo shutdown -h now'
+  alias steward='sudo shutdown -h now'
+  alias fix_wifi='sudo service network-manager restart'
+
+  # Allow enabling the touchscreen
+  alias touchscreen_on="xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 1"
+  alias touchscreen_off="xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0"
+fi
+
+type tmux &>/dev/null
+if [[ $? == 0 ]]; then
+  # Tmux specific aliases
+  tnews()
+  {
+    if [[ -z "$1" ]]; then
+      tmux new
+    else
+      tmux new -s "$1"
+    fi
+  }
+  alias tls='tmux list-session'
+  alias tlw='tmux list-window'
+  alias tat='tmux attach -t'
+  alias tkill='tmux kill-session -t'
+  alias tswitch='tmux switch-client -t'
+  function texec {
+    # kill current client, switch to new client
+    tmux switch-client -t "$1" && tmux kill-session
+  }
+fi
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  open_cmd='open'
+fi
+
+#########################################
+## All-system aliases
+#########################################
+
+# SSH aliases
+alias seas='seas_func'
+alias cs144='ssh -p 1442 cs144@localhost'
+
+# Spelling corrections
+alias gitst='git status'
+alias ivm=vim
+alias wokr=work
+alias sgit=git
+alias gti=git
+alias oepn=open
+alias ntoes=notes
+alias lls=ls
+alias sl=ls
+alias clera=clear
+alias lau=lua
+
+alias cd=func_cd
+
+# General aliases
+# alias network='cd /etc/NetworkManager/system-connections/'
+alias satTracker='~/programming/satelliteTracker/satTracker.py'
+alias open='open_func'
+alias comv='command -v'
+alias cv='command -v'
+# alias tmux='tmux -2'
+
+alias venv='source venv/bin/activate'
+
+# Load up all my externally written functions
+for k in $HOME/bin/scripts/*.sh; do
+  . "$k"
+done

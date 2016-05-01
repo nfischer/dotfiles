@@ -1,0 +1,20 @@
+" Vimperatorrc file
+
+" Restore normal browser functions
+nnoremap <BS> H
+noremap <C-a> <Ins><C-a><Ins>
+nnoremap <C-w> <Ins><C-w><Ins>
+inoremap <C-w> <Esc><C-w>
+noremap <C-t> <Ins><C-t><Ins>
+
+nnoremap k 4k
+nnoremap j 4j
+nnoremap ; :
+nnoremap x d
+nnoremap u <C-u>
+nnoremap d <C-d>
+
+set hintchars=asdjklmnoiuwe
+highlight Hint font-size:120%;color:black;background-color:cyan;padding:2px;
+
+

@@ -1,0 +1,22 @@
+[user]
+	name = Nate Fischer
+	email = ntfschr@gmail.com
+[core]
+	editor = vim
+[color]
+	ui = true
+[credential]
+	helper = cache --timeout 3600
+[alias]
+	co = checkout
+	st = status
+	squash = "!f() { git rebase -i HEAD~$1; }; f"
+	br = branch
+	brv = branch -v
+	pc = !git-precommit.js
+	precommit = !git-precommit.js
+	rv = remote -v
+	cob = checkout -b
+	head = diff HEAD
+[push]
+	default = simple
