@@ -1,0 +1,47 @@
+#!/bin/bash
+
+function changeName
+{
+  origName="$1"
+  newName=${origName// /_} # Global string replacement
+  if [ "$origName" != "$newName" ]; then
+    mv "$origName" "$newName"
+  fi
+  return 0
+}
+
+# set IFS
+OLD_IFS=$IFS
+IFS='
+'
+
+# Help message
+if [ "$1" == "--help" ]; then
+cat << EOF
+$0
+Usage: $0 [fileName]
+
+Replaces spaces in file names with underscores.
+
+If no filename is supplied, this is applied to the contents of the working
+directory. Applying to '.' does the same.
+EOF
+fi
+
+dir="$1"
+if [ -z "$1" ]; then
+  dir="."
+fi
+
+if [ -d "${dir}" ]; then
+  fileList=($(ls "${dir}"))
+  for file in "${fileList[@]}"; do
+    changeName "$file"
+  done
+else # operate on current dir
+  changeName "$1"
+fi
+
+IFS=$OLD_IFS
+
+exit 0

@@ -1,33 +1,33 @@
-#!/bin/bash
-
 # Function definitions
-function open_func() {
-  old_IFS=$IFS
-  IFS='
-  '
-  for k in "$@"; do
-    "$open_cmd" "$k" &>/dev/null &
-    disown
-  done
-  IFS=$old_IFS
-}
-# unset open_cmd
+
+## Obselete in zsh ##
+# function open_func() {
+#   old_IFS=$IFS
+#   IFS='
+#   '
+#   echo hello there
+#   for k in "$@"; do
+#     ("$open_cmd" "$k" &>/dev/null &)
+#   done
+#   IFS=$old_IFS
+# }
+# # unset open_cmd
 
 function seas_func() {
   serverBase='fischer@lnxsrv0'
-  serverName=""
+  local serverName
   if [[ -z "$1" ]]; then
     serverName='fischer@ugrad.seas.ucla.edu'
   else
-    serverName="$serverBase$1".seas.ucla.edu
+    serverName="${serverBase}${1}".seas.ucla.edu
   fi
-  ssh -X $serverName
+  ssh -X "${serverName}"
 }
 
 function func_cd() {
   # This is a function to help cd jump back some number of directories
-  # Usage: cd dir/ # jump to that directory
-  #    cd 3 # jump back 3 directories
+  # Usage: $ cd dir/ # jump to that directory
+  #        $ cd 3 # jump back 3 directories
 
   INT_REGEX="^[0-9]+$"
   if [[ "$1" =~ $INT_REGEX ]]; then
@@ -39,20 +39,20 @@ function func_cd() {
     count=$1
     target=""
     while [[ $count -gt 0 ]]; do
-      target="$target"../
+      target="${target}../"
       let count--
     done
-    echo "cd $target"
-    \cd $target
+    echo "cd ${target}"
+    \cd "${target}"
     return $?
   fi
 
   # Call actual cd instead of the alias (don't surround "$1" in quotes)
   if [ -z "$1" ]; then
-    \cd; return $?
+    \cd ; return $?
+  else
+    \cd "$1" ; return $?
   fi
-  \cd "$1"
-  return $?
 }
 
 function play_album() {
@@ -62,32 +62,31 @@ function play_album() {
     echo "VLC media player must be installed" >&2
     return 1
   fi
-
   (vlc "$@" &>/dev/null &)
 }
 
-function wifi() {
-  # Give control over the wifi radio
-  arg=""
-  case $1 in
-    restart)
-      ;&
-    fix)
-      ;&
-    -r)
-      arg="restart"
-      ;;
-    start)
-      arg="start"
-      ;;
-    stop)
-      arg="stop"
-      ;;
-  esac
-  if [ ! -z "$arg" ]; then
-    sudo service network-manager "$arg"
-  fi
-}
+# function wifi() {
+#   # Give control over the wifi radio
+#   arg=""
+#   case $1 in
+#     restart)
+#       ;&
+#     fix)
+#       ;&
+#     -r)
+#       arg="restart"
+#       ;;
+#     start)
+#       arg="start"
+#       ;;
+#     stop)
+#       arg="stop"
+#       ;;
+#   esac
+#   if [ ! -z "${arg}" ]; then
+#     sudo service network-manager "${arg}"
+#   fi
+# }
 
 function lst() {
   if [ -z "$1" ]; then
@@ -120,7 +119,7 @@ function check_swaps() {
   local files=($(ls -A "${VIM_D}/${SWAP_D}/"))
 
   local status=0
-  if [[ ${#files[@]} -ne 0 ]]; then
+  if [[ ${#files[@]} != 0 ]]; then
     echo "Resolve the following swap files:"
     echo ${files[@]}
     status=1
@@ -156,16 +155,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 #########################################
 
 if [[ "$(uname -s)" == "Linux" ]]; then
-  open_cmd='xdg-open'
+  # open_cmd='xdg-open'
   type chromium-browser &>/dev/null
   if [[ $? == 0 ]]; then
     alias browse='( chromium-browser &>/dev/null & )'
     alias bro=browse
-  fi
-
-  type libreoffice &>/dev/null
-  if [[ $? != 0 ]]; then
-    alias msword=office_func
   fi
 
   # Copy/pasting
@@ -208,9 +202,9 @@ if [[ $? == 0 ]]; then
   }
 fi
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  open_cmd='open'
-fi
+# if [[ "$(uname -s)" == "Darwin" ]]; then
+#   open_cmd='open'
+# fi
 
 #########################################
 ## All-system aliases
@@ -227,7 +221,6 @@ alias wokr=work
 alias sgit=git
 alias gti=git
 alias oepn=open
-alias ntoes=notes
 alias lls=ls
 alias sl=ls
 alias clera=clear
@@ -238,10 +231,6 @@ alias cd=func_cd
 # General aliases
 # alias network='cd /etc/NetworkManager/system-connections/'
 alias satTracker='~/programming/satelliteTracker/satTracker.py'
-alias open='open_func'
-alias comv='command -v'
-alias cv='command -v'
-# alias tmux='tmux -2'
 
 alias venv='source venv/bin/activate'
 

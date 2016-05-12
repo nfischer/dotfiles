@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ps cax | grep 'redshift' >/dev/null
+if [[ $? == 0 ]]; then
+  # redshift is running, so we should kill it
+  notify.py "Turning redshift off"
+  killall redshift
+else
+  # otherwise, we should start it
+  notify.py "Starting up redshift"
+  ( redshift -l 34:-118 &>/dev/null & )
+fi

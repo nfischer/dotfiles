@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+  echo "Must supply 2 file names"
+  exit 1
+fi
+
+tmp_file=
+while [ -z "$tmp_file" ]; do
+  tmp_file="/tmp/$RANDOM"
+  if [ -f "$tmp_file" ]; then
+    tmp_file=
+  fi
+done
+
+# Swap the files
+ret=0
+cp $1 $tmp_file || ret=$?
+cp $2 $1 || ret=$?
+cp $tmp_file $2 || ret=$?
+
+if [ $ret == 0 ]; then
+  # Cleanup
+  rm $tmp_file
+fi

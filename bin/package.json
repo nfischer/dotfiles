@@ -1,0 +1,17 @@
+{
+  "name": "bin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "main": "build.js",
+  "dependencies": {
+    "shelljs": "^0.7.0",
+    "xmldom": "^0.1.22",
+    "xpath": "0.0.21"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

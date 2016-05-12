@@ -93,9 +93,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-if [ -f ~/.shell_aliases ]; then
-  . ~/.shell_aliases
-fi
+[ -f ~/.shell_aliases ] && source ~/.shell_aliases
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
 
 export NVM_DIR="/home/nate/.nvm"
@@ -103,3 +101,10 @@ export NVM_DIR="/home/nate/.nvm"
 
 alias vim=nvim
 alias open=open_command
+
+({ # Do this in the background, please
+  myPrefix="$HOME/.npm-global"
+  if [ "$(npm config get prefix)" != "${myPrefix}" ]; then
+    npm config set prefix "${myPrefix}"
+  fi
+} &>/dev/null & )

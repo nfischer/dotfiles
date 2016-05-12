@@ -11,9 +11,7 @@
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
   # include .bashrc if it exists
-  if [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
-  fi
+  [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
 fi
 
 function safe_add_path()
@@ -25,9 +23,7 @@ function safe_add_path()
 }
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-  safe_add_path "$HOME/bin"
-fi
+[ -d "$HOME/bin" ] && safe_add_path "$HOME/bin"
 
 # set PATH so it includes npm packages
 # npm_prefix="$(npm config get prefix)"

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Simple shell script to display power info in Ubuntu
+
+upower -i $(upower -e | grep BAT) |
+grep --color=never -E "state|to\ full|to\ empty|percentage"
+
+exit $?

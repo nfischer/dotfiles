@@ -1,0 +1,25 @@
+#!/bin/bash
+
+addresses=($(hostname -I))
+declare -a subnets
+
+if [ -z "$1" ]; then
+  number=1
+else
+  number="$1"
+fi
+
+for k in ${addresses[@]}; do
+  subnets=("${subnets[@]}" "${k%.*}")
+done
+
+# Choose a subnet and visit that router
+# if [[ -z "${subnet_prefix}" ]]; then
+#   echo "Couldn't get IP address" >&2
+#   exit 1
+# fi
+
+rtr_address="${subnets[0]}.${number}"
+
+echo "Launching ${rtr_address}"
+( x-www-browser "${rtr_address}" &>/dev/null & )

@@ -103,31 +103,6 @@ export TERM='xterm-256color' # Necessary for tmux
 ## Functions
 #########################################
 
-function delete_png() {
-  local images
-  local pid
-  images=$(ls *.png)
-  for k in ${images}; do
-    gpicview "$k" &>/dev/null &
-    pid=$!
-    echo "<${pid}>"
-    read -p "Delete this file? (y/n/quit) " answer
-    kill "${pid}"
-    if [[ "${answer}" == "y" ]]; then
-      rm "$k"
-    elif [[ "${answer}" == "quit" ]]; then
-      break
-    fi
-  done
-  return 0
-}
-
-function eth() {
-  local output="$(ifconfig | grep -A 1 '^eth' | grep 'inet addr:')"
-  output=$(echo "${output}" | sed 's/.*inet addr:\([0-9.]\+\) .*$/\1/')
-  echo "Ethernet IP is ${output}"
-}
-
 function repeatedly() {
   local sleep_time=1
   while true; do
@@ -161,11 +136,6 @@ function setPS1() {
   PS1="${PS1}\n${WHITE}\$ ${REG}"
 }
 
-function office_func() {
-  libreoffice --writer "$1" &>/dev/null &
-  disown
-}
-
 #########################################
 ## Cygwin specific
 #########################################
@@ -175,7 +145,7 @@ if [ "$(uname -s)" == "CYGWIN_NT-6.1" ]; then
   alias ls='ls --color=auto'
   alias sudo='echo -e "\n\tNo sudo on cygwin!\n";'
   alias root='cd /cygdrive/c/'
-  alias vi='/usr/bin/vim' # no disadvantage to losing vi
+  alias vi='/usr/bin/vim'
   alias umount='echo "umount does not work properly on Cygwin"'
 
   open_cmd='cygstart'
