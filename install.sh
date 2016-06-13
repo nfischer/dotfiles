@@ -4,6 +4,13 @@ old_IFS=${IFS}
 IFS='
 '
 
+readonly RED='\e[1;31m'
+readonly GREEN='\e[1;32m'
+readonly YELLOW='\e[1;33m'
+readonly BLUE='\e[1;34m'
+readonly WHITE='\e[1;37m'
+readonly NORM='\e[0m'
+
 cd $(dirname $0) # make sure we're in the correct directory
 for k in `ls .`; do
   if [ "${k}" != "install.sh" ]; then # skip over this script of course
@@ -14,12 +21,12 @@ for k in `ls .`; do
     fi
     if [ -e "${linkName}" ]; then
       if [ "$(readlink ${linkName})" == "dotfiles/${k}" ]; then
-        echo "${k} already installed"
+        echo -e "${YELLOW}-${NORM} ${k} already installed"
       else
-        echo "- Warning: ${k} does not point to dotfiles/"
+        echo -e "${RED}X${NORM} Warning: ${k} does not point to dotfiles/"
       fi
     else
-      ln -s "dotfiles/${k}" "${linkName}" && echo "+ Installed ${k}"
+      ln -s "dotfiles/${k}" "${linkName}" && echo -e "${GREEN}+${NORM} Installed ${k}"
     fi
   fi
 done
