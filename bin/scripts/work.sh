@@ -70,6 +70,9 @@ function work() {
     bin)
       cd ~/bin
       ;;
+    dot*)
+      cd ~/dotfiles
+      ;;
     *)
       specific_case "${root}" "${proj_dir}"
       return $?

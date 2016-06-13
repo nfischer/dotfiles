@@ -8,6 +8,7 @@
 [credential]
 	helper = cache --timeout 3600
 [alias]
+	back = reset --hard HEAD~1
 	co = checkout
 	st = status
 	squash = "!f() { git rebase -i HEAD~$1; }; f"
@@ -17,6 +18,6 @@
 	precommit = !git-precommit.js
 	rv = remote -v
 	cob = checkout -b
-	head = diff HEAD
+	head = "!f() { [ -z $1 ] && git diff HEAD || git diff \"HEAD~$1\"; }; f"
 [push]
 	default = simple

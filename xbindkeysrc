@@ -50,6 +50,9 @@
 "chromium-browser"
   control+alt + g
 
+"firefox"
+  control+alt + f
+
 # Games
 
 "eduke32"

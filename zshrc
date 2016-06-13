@@ -7,8 +7,15 @@ if [[ $? == 0 ]]; then
   fi
 fi
 
+({ # Do this in the background, please
+  myPrefix="$HOME/.npm-global"
+  if [ "$(npm config get prefix)" != "${myPrefix}" ]; then
+    npm config set prefix "${myPrefix}"
+  fi
+} &>/dev/null & )
+
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/nate/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -59,14 +66,17 @@ ZSH_THEME="modified-amuse"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git npm command-not-found)
+plugins=(git npm command-not-found z)
 
 # User configuration
 
-  export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/nate/bin:/home/nate/.npm-global/bin"
+setopt no_inc_append_history
+setopt no_share_history
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/bin:$HOME/.npm-global/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -96,15 +106,8 @@ fi
 [ -f ~/.shell_aliases ] && source ~/.shell_aliases
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
 
-export NVM_DIR="/home/nate/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-alias vim=nvim
+alias vim='echo no'
 alias open=open_command
-
-({ # Do this in the background, please
-  myPrefix="$HOME/.npm-global"
-  if [ "$(npm config get prefix)" != "${myPrefix}" ]; then
-    npm config set prefix "${myPrefix}"
-  fi
-} &>/dev/null & )

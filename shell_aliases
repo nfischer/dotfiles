@@ -136,6 +136,8 @@ if [ -x /usr/bin/dircolors ]; then
   #alias vdir='vdir --color=auto'
 
   alias grep='grep --color=auto -d skip'
+  alias igrep='grep -i'
+  alias rgrep='grep -ir'
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
 fi
@@ -226,15 +228,22 @@ alias sl=ls
 alias clera=clear
 alias lau=lua
 
-alias cd=func_cd
-
 # General aliases
 # alias network='cd /etc/NetworkManager/system-connections/'
 alias satTracker='~/programming/satelliteTracker/satTracker.py'
 
+# Prioritized choice
+alias v="$(sh -c 'which nvim || which vim || which vi')"
+alias cd=func_cd
+
 alias venv='source venv/bin/activate'
+alias potigol="java -jar $HOME/packages/potigal/potigol.jar"
+alias epotigol="java -jar $HOME/packages/potigal/epotigol.jar"
 
 # Load up all my externally written functions
 for k in $HOME/bin/scripts/*.sh; do
   . "$k"
 done
+
+# retrain my fingers
+alias vim='echo no'
