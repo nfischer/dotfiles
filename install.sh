@@ -13,7 +13,7 @@ readonly NORM='\e[0m'
 
 cd $(dirname $0) # make sure we're in the correct directory
 for k in `ls .`; do
-  if [ "${k}" != "install.sh" ]; then # skip over this script of course
+  if [ "${k}" != "install.sh" ] && [ "${k}" != "new_comp.sh" ]; then # skip over these scripts
     if [ "${k}" == "bin" ]; then
       linkName="../bin"
     else
