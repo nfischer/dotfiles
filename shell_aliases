@@ -108,26 +108,6 @@ function vimgrep() {
   vim "${args}"
 }
 
-function check_swaps() {
-  local readonly VIM_D="${HOME}/.vim"
-  local readonly SWAP_D="tmp"
-
-  local readonly old_IFS=${IFS}
-  IFS='
-  '
-
-  local files=($(ls -A "${VIM_D}/${SWAP_D}/"))
-
-  local status=0
-  if [[ ${#files[@]} != 0 ]]; then
-    echo "Resolve the following swap files:"
-    echo ${files[@]}
-    status=1
-  fi
-  IFS=${old_IFS}
-  return ${status}
-}
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

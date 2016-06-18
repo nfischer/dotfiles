@@ -1,6 +1,5 @@
 #!/bin/bash
 
-old_IFS=${IFS}
 IFS='
 '
 
@@ -11,8 +10,8 @@ readonly BLUE='\e[1;34m'
 readonly WHITE='\e[1;37m'
 readonly NORM='\e[0m'
 
-cd $(dirname $0) # make sure we're in the correct directory
-for k in `ls .`; do
+cd "$(dirname "$0")" # make sure we're in the correct directory
+for k in *; do
   if [ "${k}" != "install.sh" ] && [ "${k}" != "new_comp.sh" ]; then # skip over these scripts
     if [ "${k}" == "bin" ]; then
       linkName="../bin"
@@ -20,7 +19,7 @@ for k in `ls .`; do
       linkName="../.${k}"
     fi
     if [ -e "${linkName}" ]; then
-      if [ "$(readlink ${linkName})" == "dotfiles/${k}" ]; then
+      if [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
         echo -e "${YELLOW}-${NORM} ${k} already installed"
       else
         echo -e "${RED}X${NORM} Warning: ${k} does not point to dotfiles/"

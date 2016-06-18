@@ -2,7 +2,7 @@
 
 ## Run this script for installing this on a new unix system.
 
-cd $(dirname $0) # make sure we're in the correct directory
+cd "$(dirname "$0")" # make sure we're in the correct directory
 
 # Apt-get dependencies
 deps=( nvim git tmux xbindkeys zsh z )

@@ -1,9 +1,10 @@
-function BKMKDIR() {
+#!/bin/bash
+BKMKDIR() {
   echo "$HOME/bookmarks"
 }
 
 ## Create a bookmark
-function mark() {
+mark() {
   if [ "$1" == "--help" ]; then
     cat << EOF
 About: This creates a bookmark to the current directory
@@ -28,7 +29,7 @@ EOF
   elif [ "$1" == "rm" ]; then
     rm "$(BKMKDIR)/$1"
   elif [ "$1" == "clean" ]; then
-    for k in `ls "$(BKMKDIR)/"`; do
+    for k in $(BKMKDIR)/*; do
       if [ ! -e "$(BKMKDIR)/$k" ]; then
         # symlink is broken
         echo "$k is broken"
@@ -42,9 +43,10 @@ EOF
     else
       mark_name=$1
     fi
-    local link_name="$(BKMKDIR)/${mark_name}"
+    local link_name
+    link_name="$(BKMKDIR)/${mark_name}"
     if [ -L "${link_name}" ]; then
-      if [ "`readlink "${link_name}"`" == "$PWD" ]; then
+      if [ "$(readlink "${link_name}")" == "$PWD" ]; then
         echo "This bookmark already exists"
         return 0
       else
@@ -61,7 +63,7 @@ EOF
 }
 
 ## Jump to a bookmark
-function jumpmark() {
+jumpmark() {
   if [ "$1" == "--help" ]; then
     cat << EOF
 About: This jumps to a mark created by mark
@@ -80,9 +82,10 @@ EOF
     return 1
   fi
 
-  local link_name="$(BKMKDIR)/$1"
+  local link_name
+  link_name="$(BKMKDIR)/$1"
   if [ -L "${link_name}" ]; then
-    cd `readlink "${link_name}"`
+    cd "$(readlink "${link_name}")"
   else
     echo "Link doesn't exist" >&2
     return 1

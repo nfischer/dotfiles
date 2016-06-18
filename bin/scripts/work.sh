@@ -2,12 +2,10 @@
 
 # changes to directory of specified project
 function work() {
-  local specific_case
   function specific_case() {
     local root="$1"
     local proj_dir="$2"
 
-    local no_match
     function no_match() {
       cd "$1"
       echo "$2* matches no directory. Changed to $1 instead." >&2
@@ -27,7 +25,8 @@ function work() {
       no_match "${root}" "${proj_dir}"
       return $?
     fi
-    local dir_name=$(echo "${ls_output}" | head -n 1)
+    local dir_name
+    dir_name=$(echo "${ls_output}" | head -n 1)
 
     echo "${dir_name}"
     cd "${dir_name}" 2>/dev/null || no_match "${root}" "${proj_dir}" || return $?
@@ -40,6 +39,7 @@ function work() {
 
     return 0
   }
+  unset no_match
 
   local proj_dir="$1"
   local root="$HOME/programming/"
@@ -75,10 +75,12 @@ function work() {
       ;;
     *)
       specific_case "${root}" "${proj_dir}"
-      return $?
+      ret=$?
+      unset -f specific_case
+      return "${ret}"
       ;;
   esac
-  pwd
-  ls
+  unset -f specific_case
+  pwd && ls
   return 0
 }

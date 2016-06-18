@@ -7,7 +7,7 @@ which gimp &>/dev/null && has_gimp=true || has_gimp=false
 function edit_screenshot()
 {
   "${has_gimp}" || { echo "This requires gimp" && return 1; }
-  local readonly last_pic=$(ls ~/Pictures/Screenshot* | tail -n 1)
+  local last_pic=$(ls ~/Pictures/Screenshot* | tail -n 1)
   echo "${last_pic}"
   gimp "${last_pic}"
 }

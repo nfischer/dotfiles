@@ -9,7 +9,7 @@ else
   number="$1"
 fi
 
-for k in ${addresses[@]}; do
+for k in "${addresses[@]}"; do
   subnets=("${subnets[@]}" "${k%.*}")
 done
 

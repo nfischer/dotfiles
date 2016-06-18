@@ -14,12 +14,7 @@ while [ -z "$tmp_file" ]; do
 done
 
 # Swap the files
-ret=0
-cp $1 $tmp_file || ret=$?
-cp $2 $1 || ret=$?
-cp $tmp_file $2 || ret=$?
-
-if [ $ret == 0 ]; then
-  # Cleanup
-  rm $tmp_file
-fi
+set -e
+mv "$1" "$tmp_file"
+mv "$2" "$1"
+mv "$tmp_file" "$2"
