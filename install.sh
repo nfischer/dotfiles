@@ -20,9 +20,11 @@ for k in *; do
     fi
     if [ -e "${linkName}" ]; then
       if [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
-        echo -e "${YELLOW}-${NORM} ${k} already installed"
+        echo -e "${BLUE}-${NORM} ${k} already installed"
+      elif [ ! -L "${linkName}" ]; then
+        echo -e "${YELLOW}?${NORM} Warning: ${k} is not a symlink"
       else
-        echo -e "${RED}X${NORM} Warning: ${k} does not point to dotfiles/"
+        echo -e "${RED}X${NORM} Error: ${k} does not point to dotfiles/"
       fi
     else
       ln -s "dotfiles/${k}" "${linkName}" && echo -e "${GREEN}+${NORM} Installed ${k}"
