@@ -6,6 +6,7 @@
   "main": "build.js",
   "dependencies": {
     "jquery": "^3.0.0",
+    "jsdom": "^9.3.0",
     "shelljs": "^0.7.0",
     "xmldom": "^0.1.22",
     "xpath": "0.0.21"
