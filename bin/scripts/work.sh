@@ -61,8 +61,8 @@ function work() {
     npm)
       cd ~/.npm-global/lib/node_modules
       ;;
-    bundle)
-      cd ~/.vim/bundle
+    plugged)
+      cd ~/.vim/plugged
       ;;
     vim)
       cd ~/.vim
