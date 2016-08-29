@@ -5,6 +5,7 @@
   "description": "",
   "main": "build.js",
   "dependencies": {
+    "google-spreadsheet": "^2.0.3",
     "jquery": "^3.0.0",
     "jsdom": "^9.3.0",
     "shelljs": "^0.7.0",

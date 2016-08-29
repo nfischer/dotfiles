@@ -31,8 +31,8 @@ function work() {
     echo "${dir_name}"
     cd "${dir_name}" 2>/dev/null || no_match "${root}" "${proj_dir}" || return $?
 
-    # change to src directory, since I normally want that one
-    cd src/ &>/dev/null || true
+    # # change to src directory, since I normally want that one
+    # cd src/ &>/dev/null || true
 
     # git status if it is a git repo
     git status 2>/dev/null || true

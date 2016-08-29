@@ -47,7 +47,7 @@
 # "virtualbox"
 #   control+alt + v
 
-"chromium-browser"
+"google-chrome"
   control+alt + g
 
 "firefox"

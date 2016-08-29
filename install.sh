@@ -10,30 +10,52 @@ readonly BLUE='\e[1;34m'
 readonly WHITE='\e[1;37m'
 readonly NORM='\e[0m'
 
+yellow() {
+  echo "${YELLOW}$1${NORM}"
+}
+
+blue() {
+  echo "${BLUE}$1${NORM}"
+}
+
+red() {
+  echo "${RED}$1${NORM}"
+}
+
+green() {
+  echo "${GREEN}$1${NORM}"
+}
+
+white() {
+  echo "${WHITE}$1${NORM}"
+}
+
 cd "$(dirname "$0")" # make sure we're in the correct directory
 for k in *; do
   if [ "${k}" != "install.sh" ] && [ "${k}" != "new_comp.sh" ]; then # skip over these scripts
     if [ "${k}" == "bin" ]; then
+      # Special case
       linkName="../bin"
     else
       linkName="../.${k}"
     fi
-    if [ -e "${linkName}" ]; then
-      if [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
-        echo -e "${BLUE}-${NORM} ${k} already installed"
-      elif [ ! -L "${linkName}" ]; then
-        echo -e "${YELLOW}?${NORM} Warning: ${k} is not a symlink"
-      else
-        echo -e "${RED}X${NORM} Error: ${k} does not point to dotfiles/"
-      fi
+    if [ ! -e "${linkName}" ]; then
+      ln -s "dotfiles/${k}" "${linkName}" &&
+        echo -e "$(green '+') Installed ${k}" ||
+        echo -e "$(red '+') Error: could not install ${k}"
+    elif [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
+      echo -e "$(blue '-') ${k} already installed"
+    elif [ ! -L "${linkName}" ]; then
+      echo -e "$(yellow '?') Warning: ${k} is not a symlink"
     else
-      ln -s "dotfiles/${k}" "${linkName}" && echo -e "${GREEN}+${NORM} Installed ${k}"
+      echo -e "$(red 'X') Error: ${k} does not point to dotfiles/"
     fi
   fi
 done
 
 # Perform npm install for bin/
-echo ""
-echo "Installing npm packages"
-cd bin/
-npm install
+if which npm &>/dev/null; then
+  echo -e "\n$(white 'Installing npm packages')"
+  cd bin/
+  npm install
+fi

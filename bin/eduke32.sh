@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cur_dir=`pwd`
 GAME_FOLDER="$HOME/.eduke32_src/eduke32"
 DUKE="eduke32"           # Game binary
 HRP="duke3d_hrp.zip"     # High Res Pack
@@ -9,12 +8,11 @@ result=0
 cd "$GAME_FOLDER" 2>/dev/null || exit 1
 
 if [ "$1" == "-n" -o "$1" == "--normal" ]; then
-    "./$DUKE"
-    result=$?
+  "./$DUKE"
+  result=$?
 else
-    "./$DUKE" -grp "$HRP"
-    result=$?
+  "./$DUKE" -grp "$HRP"
+  result=$?
 fi
-cd "$cur_dir" # restore directory
-echo -e "\n"
+
 exit $result

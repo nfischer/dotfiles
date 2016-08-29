@@ -5,7 +5,7 @@
 cd "$(dirname "$0")" # make sure we're in the correct directory
 
 # Apt-get dependencies
-deps=( nvim git tmux xbindkeys zsh z )
+deps=( nvim git git-extras tmux xbindkeys zsh z )
 
 echo "This script requires root priviledge"
 sudo apt-get update &&

@@ -99,12 +99,13 @@ function lst() {
 }
 
 function vimgrep() {
+  local args
   if [ -z "$2" ]; then
-    args="+vimgrep '$1' "'*'
+    args=("+vimgrep '$1'" '*')
   else
-    args="+vimgrep '$1' ${*:2}"
+    args=("+vimgrep '$1'" "${@:2}")
   fi
-  echo "${args}"
+  echo "vim" "${args}"
   vim "${args}"
 }
 
@@ -196,7 +197,7 @@ fi
 alias seas='seas_func'
 alias cs144='ssh -p 1442 cs144@localhost'
 
-# Spelling corrections
+# Spelling corrections (typos)
 alias gitst='git status'
 alias ivm=vim
 alias wokr=work
@@ -207,6 +208,7 @@ alias lls=ls
 alias sl=ls
 alias clera=clear
 alias lau=lua
+alias gs=gst
 
 # General aliases
 # alias network='cd /etc/NetworkManager/system-connections/'

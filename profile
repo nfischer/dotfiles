@@ -26,6 +26,9 @@ fi
 # set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && safe_add_path "$HOME/bin"
 
+# Add golang
+[ -d "/usr/local/go/bin" ] && safe_add_path "/usr/local/go/bin"
+
 # set PATH so it includes npm packages
 # npm_prefix="$(npm config get prefix)"
 npm_prefix="$HOME/.npm-global"

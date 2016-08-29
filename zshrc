@@ -7,6 +7,17 @@ if [[ $? == 0 ]]; then
   fi
 fi
 
+# ===============================================================
+# Functions {{{
+safe_add_path()
+{
+  case ":$PATH:" in
+    *":$1:"*) ;; # do nothing, it's already there
+    *) PATH="$PATH:$1";;
+  esac
+}
+# }}}
+
 ({ # Do this in the background, please
   myPrefix="$HOME/.npm-global"
   if [ "$(npm config get prefix)" != "${myPrefix}" ]; then
@@ -66,7 +77,7 @@ ZSH_THEME="modified-amuse"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git npm command-not-found z)
+plugins=(git git-extras npm command-not-found z go)
 
 # User configuration
 
@@ -103,6 +114,9 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Add golang
+[ -d "/usr/local/go/bin" ] && safe_add_path "/usr/local/go/bin"
+
 [ -f ~/.shell_aliases ] && source ~/.shell_aliases
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
 
@@ -111,3 +125,14 @@ export NVM_DIR="$HOME/.nvm"
 
 alias vim='echo no'
 alias open=open_command
+
+# Completion for nan command
+compdef nan=man
+
+# Completion for cd function
+compdef func_cd=cd
+
+# Local zshrc
+if [ -f "$HOME/.local.zshrc" ]; then
+  source "$HOME/.local.zshrc"
+fi

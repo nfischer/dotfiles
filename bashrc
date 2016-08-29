@@ -104,15 +104,6 @@ export TERM='xterm-256color' # Necessary for tmux
 ## Functions
 #########################################
 
-function repeatedly() {
-  local sleep_time=1
-  while true; do
-    $@ # Execute everything on the arg list
-    sleep ${sleep_time}
-  done
-  return 0
-}
-
 function setPS1() {
   local E_RED='\[\e[1\;31m\]'     # semicolon is escaped
   local E_GREEN='\[\e[1\;32m\]'   # semicolon is escaped
@@ -123,7 +114,7 @@ function setPS1() {
   local WHITE='\[\e[1;37m\]'
   local REG='\[\e[0m\]'
 
-  old_PS1="${PS1}"
+  export old_PS1="${PS1}"
   # PS1="\n\$(if [[ \$? == 0 ]]; then echo $E_GREEN; else echo $E_RED; fi)\u@\h $BLUE\w\$(__git_ps1 '$YELLOW [%s]')\n$WHITE\$ $REG"
   PS1=""
   PS1="\n${PS1}\$(if [[ \$? == 0 ]]; then echo ${E_GREEN}; else echo ${E_RED}; fi)\u@\h ${BLUE}\w"
@@ -153,10 +144,11 @@ if [ "$(uname -s)" == "CYGWIN_NT-6.1" ]; then
 fi
 
 setPS1 # function call
-if [[ -z "${has_checked_swaps}" ]]; then
-  has_checked_swaps=1
-  check_swaps
-fi
 
 # Prevent evil ctrl-s terminal behavior
 stty -ixon
+
+# Local bashrc
+if [ -f "$HOME/.local.bashrc" ]; then
+  source "$HOME/.local.bashrc"
+fi
