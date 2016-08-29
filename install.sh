@@ -31,9 +31,10 @@ white() {
 }
 
 cd "$(dirname "$0")" # make sure we're in the correct directory
+files_to_skip=(install.sh new_comp.sh README.md LICENSE)
 for k in *; do
-  if [ "${k}" == "install.sh" ] || [ "${k}" == "new_comp.sh" ]; then
-    continue # skip over these scripts
+  if [[ "${files_to_skip[@]}" == *"${k}"* ]]; then
+    continue # these don't count as real dotfiles, so don't install them
   fi
 
   if [ "${k}" == "bin" ]; then
