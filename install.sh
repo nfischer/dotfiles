@@ -32,24 +32,27 @@ white() {
 
 cd "$(dirname "$0")" # make sure we're in the correct directory
 for k in *; do
-  if [ "${k}" != "install.sh" ] && [ "${k}" != "new_comp.sh" ]; then # skip over these scripts
-    if [ "${k}" == "bin" ]; then
-      # Special case
-      linkName="../bin"
-    else
-      linkName="../.${k}"
-    fi
-    if [ ! -e "${linkName}" ]; then
-      ln -s "dotfiles/${k}" "${linkName}" &&
-        echo -e "$(green '+') Installed ${k}" ||
-        echo -e "$(red '+') Error: could not install ${k}"
-    elif [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
-      echo -e "$(blue '-') ${k} already installed"
-    elif [ ! -L "${linkName}" ]; then
-      echo -e "$(yellow '?') Warning: ${k} is not a symlink"
-    else
-      echo -e "$(red 'X') Error: ${k} does not point to dotfiles/"
-    fi
+  if [ "${k}" == "install.sh" ] || [ "${k}" == "new_comp.sh" ]; then
+    continue # skip over these scripts
+  fi
+
+  if [ "${k}" == "bin" ]; then
+    # Special case
+    linkName="../bin"
+  else
+    linkName="../.${k}"
+  fi
+
+  if [ ! -e "${linkName}" ]; then
+    ln -s "dotfiles/${k}" "${linkName}" &&
+      echo -e "$(green '+') Installed ${k}" ||
+      echo -e "$(red '+') Error: could not install ${k}"
+  elif [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
+    echo -e "$(blue '-') ${k} already installed"
+  elif [ ! -L "${linkName}" ]; then
+    echo -e "$(yellow '?') Warning: ${k} is not a symlink"
+  else
+    echo -e "$(red 'X') Error: ${k} does not point to dotfiles/"
   fi
 done
 
