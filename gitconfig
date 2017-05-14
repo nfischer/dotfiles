@@ -1,8 +1,9 @@
 [user]
 	name = Nate Fischer
-	email = ntfschr@gmail.com
+	email = ntfschr@google.com
 [core]
 	editor = vim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [color]
 	ui = true
 [credential]
@@ -19,5 +20,9 @@
 	cob = checkout -b
 	head = "!f() { [ -z $1 ] && git diff HEAD || git diff \"HEAD~$1\"; }; f"
 	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+	rc = commit -a --amend --no-edit
+	sh = stash
+	mas = checkout master
+	cy = cherry-pick
 [push]
 	default = simple
