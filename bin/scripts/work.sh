@@ -1,86 +1,61 @@
 #!/bin/bash
 
-# changes to directory of specified project
-function work() {
-  function specific_case() {
-    local root="$1"
-    local proj_dir="$2"
+WORK_ROOTS=("$HOME/programming")
+WORK_TARGETS=("$HOME/.vim" "$HOME/bin" "$HOME/dotfiles")
+work_helper() {
+  local dir="$1"
 
-    function no_match() {
-      cd "$1"
-      echo "$2* matches no directory. Changed to $1 instead." >&2
-      pwd
-      ls
-      return 1
-    }
+  local root
+  local target
+  local target_name
 
-    local ls_output
-    if [[ "${proj_dir}" == */ ]]; then # ends in a slash
-      ls_output=$(ls -d "${root}${proj_dir}" 2>/dev/null)
-    else # not absolute
-      ls_output=$(ls -d "${root}${proj_dir}"*/ 2>/dev/null)
+  for target in "${WORK_TARGETS[@]}"; do
+    target_name="$(basename "${target}")"
+    if [ "${dir}" == "${target_name}" ]; then
+      cd "${target}" 2>/dev/null && return 0
     fi
+  done
 
-    if [ -z "${ls_output}" ]; then
-      no_match "${root}" "${proj_dir}"
-      return $?
-    fi
-    local dir_name
-    dir_name=$(echo "${ls_output}" | head -n 1)
-
-    echo "${dir_name}"
-    cd "${dir_name}" 2>/dev/null || no_match "${root}" "${proj_dir}" || return $?
-
-    # # change to src directory, since I normally want that one
-    # cd src/ &>/dev/null || true
-
-    # git status if it is a git repo
-    git status 2>/dev/null || true
-
-    return 0
-  }
-  unset no_match
-
-  local proj_dir="$1"
-  local root="$HOME/programming/"
-  if [ ! -d "${root}" ]; then
-    echo -n "Error: ${root} is not a directory. Please modify $0 to " >&2
-    echo "update this." >&2
-    return 2
-  fi
-
-  if [ $# -gt 1 ]; then
-    echo "Too many arguments" >&2
-    return 1
-  fi
-
-  case "${proj_dir}" in
-    "")
-      cd "${root}"
-      ;;
-    npm)
-      cd ~/.npm-global/lib/node_modules
-      ;;
-    plugged)
-      cd ~/.vim/plugged
-      ;;
-    vim)
-      cd ~/.vim
-      ;;
-    bin)
-      cd ~/bin
-      ;;
-    dot*)
-      cd ~/dotfiles
-      ;;
-    *)
-      specific_case "${root}" "${proj_dir}"
-      ret=$?
-      unset -f specific_case
-      return "${ret}"
-      ;;
-  esac
-  unset -f specific_case
-  pwd && ls
-  return 0
+  for root in "${WORK_ROOTS[@]}"; do
+    cd "${root}/${dir}" &>/dev/null && return 0
+  done
+  return 1
 }
+
+work() {
+  work_helper "$@"
+  ret=$?
+
+  if [ $? == 0 ]; then
+    pwd
+    git status 2>/dev/null
+  fi
+  return $ret
+}
+
+_work() {
+  local -a _1st_arguments
+  local target
+  local root
+  local file
+
+  for target in "${WORK_TARGETS[@]}"; do
+    _1st_arguments=(${_1st_arguments} "$(basename "${target}")")
+  done
+
+  for root in "${WORK_ROOTS[@]}"; do
+    for file in "${root}/"*/; do
+      _1st_arguments=(${_1st_arguments} "$(basename "${file}")")
+    done
+  done
+
+  _arguments \
+    '*:: :->subcmds' && return 0
+
+  if (( CURRENT == 1 )); then
+    _describe -t commands "work subcommand" _1st_arguments
+    return
+  fi
+}
+
+compdef _work work
