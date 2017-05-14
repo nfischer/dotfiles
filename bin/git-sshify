@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var shell = require('shelljs');
+shell.config.silent = true;
+
+var line = shell.exec('git remote -v').grep('origin').stdout.split('\n')[0];
+
+var match = line.match(/origin.*https:\/\/github.com\/([^ .]*)\/([^ .]*)(.git)?/);
+if (match) {
+  var user = match[1];
+  var repo = match[2];
+  shell.config.silent = false;
+  var ret = shell.exec(`git remote set-url origin git@github.com:${user}/${repo}.git`);
+  if (ret.code === 0) {
+    console.log('Done');
+  } else {
+    console.error('Failure');
+    process.exit(1);
+  }
+} else {
+  console.error("This doesn't appear to be http");
+  process.exit(1);
+}
