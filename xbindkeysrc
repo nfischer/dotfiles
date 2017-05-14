@@ -44,39 +44,13 @@
 
 # Applications
 
-# "virtualbox"
-#   control+alt + v
-
 "google-chrome"
   control+alt + g
 
-"firefox"
-  control+alt + f
-
-# Games
-
-"eduke32"
-  control+alt + e
-
-"ksp"
-  control+alt + k
-
 # Utilities
-
-"gui_battery_check.py"
-  control+alt + b
-
-"gksudo service network-manager restart"
-  control+alt + w
-
-"gui_iwconfig.py"
-  control+alt + i
 
 "toggleRedshift"
   control+alt + r
-
-"python3 /usr/share/system-config-printer/system-config-printer.py"
-  control+alt + p
 
 # "arandr"
 #   control+alt + a
