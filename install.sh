@@ -11,23 +11,23 @@ readonly WHITE='\e[1;37m'
 readonly NORM='\e[0m'
 
 yellow() {
-  echo "${YELLOW}$1${NORM}"
+  echo -e "${YELLOW}$1${NORM}"
 }
 
 blue() {
-  echo "${BLUE}$1${NORM}"
+  echo -e "${BLUE}$1${NORM}"
 }
 
 red() {
-  echo "${RED}$1${NORM}"
+  echo -e "${RED}$1${NORM}"
 }
 
 green() {
-  echo "${GREEN}$1${NORM}"
+  echo -e "${GREEN}$1${NORM}"
 }
 
 white() {
-  echo "${WHITE}$1${NORM}"
+  echo -e "${WHITE}$1${NORM}"
 }
 
 cd "$(dirname "$0")" # make sure we're in the correct directory
@@ -46,20 +46,21 @@ for k in *; do
 
   if [ ! -e "${linkName}" ]; then
     ln -s "dotfiles/${k}" "${linkName}" &&
-      echo -e "$(green '+') Installed ${k}" ||
-      echo -e "$(red '+') Error: could not install ${k}"
+      echo "$(green '+') Installed ${k}" ||
+      echo "$(red '+') Error: could not install ${k}"
   elif [ "$(readlink "${linkName}")" == "dotfiles/${k}" ]; then
-    echo -e "$(blue '-') ${k} already installed"
+    echo "$(blue '-') ${k} already installed"
   elif [ ! -L "${linkName}" ]; then
-    echo -e "$(yellow '?') Warning: ${k} is not a symlink"
+    echo "$(yellow '?') Warning: ${k} is not a symlink"
   else
-    echo -e "$(red 'X') Error: ${k} does not point to dotfiles/"
+    echo "$(red 'X') Error: ${k} does not point to dotfiles/"
   fi
 done
 
 # Perform npm install for bin/
 if which npm &>/dev/null; then
-  echo -e "\n$(white 'Installing npm packages')"
+  echo ""
+  white 'Installing npm packages'
   cd bin/
   npm install
 fi
