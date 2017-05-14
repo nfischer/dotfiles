@@ -1,22 +1,31 @@
-# Start TMUX by default
-type tmux &>/dev/null
-if [[ $? == 0 ]]; then
+# ===============================================================
+# Start tmux by default {{{
+# ===============================================================
+
+if type tmux &>/dev/null; then
   if [[ -z "$TMUX" ]]; then
     # We're not running tmux, so it's safe to start it
     exec tmux
   fi
 fi
 
+# }}}
 # ===============================================================
 # Functions {{{
-safe_add_path()
+# ===============================================================
+
+safe_add_path() # should only be used to dynamically add to the path
 {
   case ":$PATH:" in
     *":$1:"*) ;; # do nothing, it's already there
     *) PATH="$PATH:$1";;
   esac
 }
+
 # }}}
+# ===============================================================
+# npm set prefix {{{
+# ===============================================================
 
 ({ # Do this in the background, please
   myPrefix="$HOME/.npm-global"
@@ -25,72 +34,79 @@ safe_add_path()
   fi
 } &>/dev/null & )
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# }}}
+# ===============================================================
+# Environmental variables {{{
+# ===============================================================
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="avit"
-ZSH_THEME="modified-amuse"
+export PATH="/usr/local/sbin"
+PATH="$PATH:/usr/local/bin"
+PATH="$PATH:/usr/sbin"
+PATH="$PATH:/usr/bin"
+PATH="$PATH:/sbin"
+PATH="$PATH:/bin"
+PATH="$PATH:/usr/games"
+PATH="$PATH:/usr/local/games"
+PATH="$PATH:$HOME/bin"
+PATH="$PATH:$HOME/.npm-global/bin"
+PATH="$PATH:/usr/local/go/bin"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# TODO(nate): do I need this one...
+fpath=($fpath "$HOME/bin")
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+autoload -U promptinit; promptinit
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# }}}
+# ===============================================================
+# Zplug {{{
+# ===============================================================
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+source ~/.zplug/init.zsh
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+zplug 'denysdovhan/spaceship-zsh-theme', use:spaceship.zsh, from:github, as:theme
+zplug 'lib/completion',       from:oh-my-zsh
+zplug 'lib/directories',      from:oh-my-zsh
+zplug 'lib/functions',        from:oh-my-zsh
+zplug 'lib/history',          from:oh-my-zsh
+zplug 'lib/key-bindings',     from:oh-my-zsh
+zplug 'lib/nvm',              from:oh-my-zsh
+zplug 'lib/spectrum',         from:oh-my-zsh
+zplug 'lib/termsupport',      from:oh-my-zsh
+zplug 'lib/theme-and-appearance',  from:oh-my-zsh
+zplug 'plugins/command-not-found', from:oh-my-zsh
+zplug 'plugins/git',          from:oh-my-zsh
+zplug 'plugins/git-extras',   from:oh-my-zsh
+zplug 'plugins/go',           from:oh-my-zsh
+zplug 'plugins/npm',          from:oh-my-zsh
+zplug 'plugins/nvm',          from:oh-my-zsh
+zplug 'plugins/z',            from:oh-my-zsh
+zplug 'supercrabtree/k'
+zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
+zplug '~/programming/crystal-zsh', from:local
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# zplug 'plugins/safe-paste',   from:oh-my-zsh
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+zplug load
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+# }}}
+# ===============================================================
+# Plugin configuration {{{
+# ===============================================================
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# TODO(nate): or do I need this one instead?
+fpath=($fpath "$HOME/bin")
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras npm command-not-found z go)
+# ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # User configuration
 
-setopt no_inc_append_history
-setopt no_share_history
+# setopt no_inc_append_history
+# setopt no_share_history
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/bin:$HOME/.npm-global/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-source "$ZSH/oh-my-zsh.sh"
-
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -99,40 +115,41 @@ else
   export EDITOR='nvim'
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Add golang
-[ -d "/usr/local/go/bin" ] && safe_add_path "/usr/local/go/bin"
-
-[ -f ~/.shell_aliases ] && source ~/.shell_aliases
-alias reload='. ~/.zshrc && echo "reloading zshrc"'
+# }}}
+# ===============================================================
+# nvm {{{
+# ===============================================================
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-alias vim='echo no'
+# }}}
+# ===============================================================
+# Aliases {{{
+# ===============================================================
+
+[ -f ~/.shell_aliases ] && source ~/.shell_aliases
+
+alias reload='. ~/.zshrc && echo "reloading zshrc"'
 alias open=open_command
+alias gh='git head'
+
+# }}}
+# ===============================================================
+# Other goodies {{{
+# ===============================================================
 
 # Completion for nan command
 compdef nan=man
 
-# Completion for cd function
-compdef func_cd=cd
+setopt auto_cd
 
 # Local zshrc
 if [ -f "$HOME/.local.zshrc" ]; then
   source "$HOME/.local.zshrc"
 fi
+# }}}
+# ===============================================================

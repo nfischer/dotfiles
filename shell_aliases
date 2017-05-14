@@ -211,6 +211,8 @@ alias lau=lua
 # General aliases
 # alias network='cd /etc/NetworkManager/system-connections/'
 alias satTracker='~/programming/satelliteTracker/satTracker.py'
+alias grc='git rc'
+alias gs='git status -s'
 
 # Git aliases
 alias gdmas='git diff master'
