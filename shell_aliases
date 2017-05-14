@@ -198,7 +198,6 @@ alias seas='seas_func'
 alias cs144='ssh -p 1442 cs144@localhost'
 
 # Spelling corrections (typos)
-alias gitst='git status'
 alias ivm=vim
 alias wokr=work
 alias sgit=git
@@ -208,18 +207,20 @@ alias lls=ls
 alias sl=ls
 alias clera=clear
 alias lau=lua
-alias gs=gst
 
 # General aliases
 # alias network='cd /etc/NetworkManager/system-connections/'
 alias satTracker='~/programming/satelliteTracker/satTracker.py'
+alias grc='git rc'
+alias gs='git status -s'
 
 # Prioritized choice
 alias v="$(sh -c 'which nvim || which vim || which vi')"
-alias n="$(sh -c 'which npm')"
-alias nt="$(sh -c 'which npm') test"
-alias ni="$(sh -c 'which npm') install"
-alias cd=func_cd
+alias n="npm"
+alias nt="npm test"
+alias ni="npm install"
+alias nr="npm run"
+# alias cd=func_cd
 
 alias venv='source venv/bin/activate'
 alias potigol="java -jar $HOME/packages/potigal/potigol.jar"
@@ -230,8 +231,3 @@ for k in $HOME/bin/scripts/*.sh; do
   . "$k"
 done
 
-_train() {
-  echo no
-}
-# retrain my fingers
-alias vim=_train
