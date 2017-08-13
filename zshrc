@@ -51,6 +51,8 @@ PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/.npm-global/bin"
 PATH="$PATH:/usr/local/go/bin"
 
+export LESS=-Ri # show colors and smartcase search
+
 # TODO(nate): do I need this one...
 fpath=($fpath "$HOME/bin")
 
@@ -81,6 +83,7 @@ zplug 'plugins/npm',          from:oh-my-zsh
 zplug 'plugins/nvm',          from:oh-my-zsh
 zplug 'plugins/z',            from:oh-my-zsh
 zplug 'supercrabtree/k'
+zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
 zplug '~/programming/crystal-zsh', from:local
 
