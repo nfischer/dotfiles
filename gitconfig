@@ -9,20 +9,18 @@
 	helper = cache --timeout 3600
 [alias]
 	back-hard = reset --hard HEAD~1
-	co = checkout
-	st = status
-	squash = "!f() { git rebase -i HEAD~$1; }; f"
 	br = branch
 	brv = branch -v
-	pc = precheck
-	rv = remote -v
+	co = checkout
 	cob = checkout -b
-	head = "!f() { [ -z $1 ] && git diff HEAD || git diff \"HEAD~$1\"; }; f"
-	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
-	rc = commit -a --amend --no-edit
-	sh = stash
-	mas = checkout master
 	cy = cherry-pick
+	head = "!f() { [ -z $1 ] && git diff HEAD || git diff \"HEAD~$1\"; }; f"
+	mas = checkout master
+	rc = commit -a --amend --no-edit
+	rv = remote -v
+	sh = stash
+	squash = "!f() { git rebase -i HEAD~$1; }; f"
+	st = status
 [push]
 	default = simple
 [color "diff"]
@@ -34,3 +32,5 @@
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+[pretty]
+	commitdate = format:%C(yellow)commit %H %C(auto)%d%n%C(white)Author:     %an <%ae>%nCommitDate: %ad%n%n%C(white)%w(0,4,4)%B%n

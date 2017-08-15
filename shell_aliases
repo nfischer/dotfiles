@@ -153,13 +153,12 @@ alias clera=clear
 alias lau=lua
 
 # Git aliases
-alias grc='git rc'
-alias gs='git status -s'
 alias gdmas='git diff master'
 alias gdn='git diff --name-only'
-alias grc='git rc'
-alias gs='git status -s'
 alias gh='git head'
+alias glg='git log --pretty=commitdate --stat'
+alias grc='git rc'
+alias gs='git status -sb'
 
 # General aliases
 alias ag='ag --smart-case'
