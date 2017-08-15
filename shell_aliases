@@ -1,4 +1,6 @@
-# Function definitions
+# ===============================================================
+# Function definitions {{{
+# ===============================================================
 
 ## Obselete in zsh ##
 # function open_func() {
@@ -22,37 +24,6 @@ function seas_func() {
     serverName="${serverBase}${1}".seas.ucla.edu
   fi
   ssh -X "${serverName}"
-}
-
-function func_cd() {
-  # This is a function to help cd jump back some number of directories
-  # Usage: $ cd dir/ # jump to that directory
-  #        $ cd 3 # jump back 3 directories
-
-  INT_REGEX="^[0-9]+$"
-  if [[ "$1" =~ $INT_REGEX ]]; then
-    if [[ -d "$1" ]]; then
-      # We should actually change to this directory!
-      \cd "$1"
-      return $?
-    fi
-    count=$1
-    target=""
-    while [[ $count -gt 0 ]]; do
-      target="${target}../"
-      let count--
-    done
-    echo "cd ${target}"
-    \cd "${target}"
-    return $?
-  fi
-
-  # Call actual cd instead of the alias (don't surround "$1" in quotes)
-  if [ -z "$1" ]; then
-    \cd ; return $?
-  else
-    \cd "$1" ; return $?
-  fi
 }
 
 function play_album() {
@@ -109,33 +80,10 @@ function vimgrep() {
   vim "${args}"
 }
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  #alias dir='dir --color=auto'
-  #alias vdir='vdir --color=auto'
-
-  alias grep='grep --color=auto -d skip'
-  alias igrep='grep -i'
-  alias rgrep='grep -ir'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias lss='ls -Ad .*'
-
-# Add an "alert" alias for long running commands.  Use like so:
-# sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-#########################################
-## Linux specific
-#########################################
+# }}}
+# ===============================================================
+# Linux specific {{{
+# ===============================================================
 
 if [[ "$(uname -s)" == "Linux" ]]; then
   # open_cmd='xdg-open'
@@ -189,16 +137,12 @@ fi
 #   open_cmd='open'
 # fi
 
-#########################################
-## All-system aliases
-#########################################
-
-# SSH aliases
-alias seas='seas_func'
-alias cs144='ssh -p 1442 cs144@localhost'
+# }}}
+# ===============================================================
+# All-system aliases {{{
+# ===============================================================
 
 # Spelling corrections (typos)
-alias ivm=vim
 alias wokr=work
 alias sgit=git
 alias gti=git
@@ -208,32 +152,59 @@ alias sl=ls
 alias clera=clear
 alias lau=lua
 
-# General aliases
-# alias network='cd /etc/NetworkManager/system-connections/'
-alias satTracker='~/programming/satelliteTracker/satTracker.py'
+# Git aliases
 alias grc='git rc'
 alias gs='git status -s'
-
-# Git aliases
 alias gdmas='git diff master'
 alias gdn='git diff --name-only'
 alias grc='git rc'
 alias gs='git status -s'
 
-# Prioritized choice
+# General aliases
+alias ag='ag --smart-case'
 alias v="$(sh -c 'which nvim || which vim || which vi')"
 alias n="npm"
 alias nt="npm test"
 alias ni="npm install"
 alias nr="npm run"
-# alias cd=func_cd
+
+# Add an "alert" alias for long running commands.  Use like so:
+# sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 alias venv='source venv/bin/activate'
 alias potigol="java -jar $HOME/packages/potigal/potigol.jar"
 alias epotigol="java -jar $HOME/packages/potigal/epotigol.jar"
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
+
+  alias grep='grep --color=auto -d skip'
+  alias igrep='grep -i'
+  alias rgrep='grep -ir'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lss='ls -Ad .*'
+
+# }}}
+# ===============================================================
+# Load scripts folder for shell functions {{{
+# ===============================================================
 
 # Load up all my externally written functions
 for k in $HOME/bin/scripts/*.sh; do
   . "$k"
 done
 
+# }}}
+# ===============================================================
