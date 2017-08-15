@@ -36,6 +36,13 @@ safe_add_path() # should only be used to dynamically add to the path
 
 # }}}
 # ===============================================================
+# Miscellaneous {{{
+# ===============================================================
+
+HIST_STAMPS="mm/dd/yyyy" # Do not change this, or else history breaks
+
+# }}}
+# ===============================================================
 # Environmental variables {{{
 # ===============================================================
 
@@ -174,6 +181,17 @@ export NVM_DIR="$HOME/.nvm"
 
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
 alias open=open_command
+
+# Suffix aliases
+alias -s c="$EDITOR"
+alias -s cc="$EDITOR"
+alias -s cpp="$EDITOR"
+alias -s h="$EDITOR"
+alias -s java="$EDITOR"
+alias -s md="$EDITOR"
+alias -s txt="$EDITOR"
+alias -s vim="$EDITOR"
+alias -s xml="$EDITOR"
 
 # }}}
 # ===============================================================
