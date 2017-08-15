@@ -1,10 +1,11 @@
 #!/bin/bash
 
+# Do not put a trailing slash on these values! These can be override in .zshrc
 WORK_ROOTS=("$HOME/programming")
-WORK_TARGETS=("$HOME/.vim" "$HOME/bin" "$HOME/dotfiles")
+WORK_TARGETS=("$HOME/packages" "$HOME/bin" "$HOME/.vim" "$HOME/dotfiles")
+
 work_helper() {
   local dir="$1"
-
   local root
   local target
   local target_name
@@ -17,45 +18,15 @@ work_helper() {
   done
 
   for root in "${WORK_ROOTS[@]}"; do
+    cd "${root}/${dir}/src" &>/dev/null && return 0
     cd "${root}/${dir}" &>/dev/null && return 0
   done
+  echo "Could not find ${dir}" >&2
   return 1
 }
 
 work() {
-  work_helper "$@"
-  ret=$?
-
-  if [ $? == 0 ]; then
-    pwd
-    git status 2>/dev/null
-  fi
-  return $ret
+  work_helper "$@" || return $?
+  pwd
+  git status -uno 2>/dev/null || ls
 }
-
-_work() {
-  local -a _1st_arguments
-  local target
-  local root
-  local file
-
-  for target in "${WORK_TARGETS[@]}"; do
-    _1st_arguments=(${_1st_arguments} "$(basename "${target}")")
-  done
-
-  for root in "${WORK_ROOTS[@]}"; do
-    for file in "${root}/"*/; do
-      _1st_arguments=(${_1st_arguments} "$(basename "${file}")")
-    done
-  done
-
-  _arguments \
-    '*:: :->subcmds' && return 0
-
-  if (( CURRENT == 1 )); then
-    _describe -t commands "work subcommand" _1st_arguments
-    return
-  fi
-}
-
-compdef _work work

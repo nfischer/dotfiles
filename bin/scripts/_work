@@ -1,0 +1,25 @@
+#compdef work
+#autoload
+
+# which work &>/dev/null || return 0
+
+local base
+local -a _1st_arguments
+
+# Only show the last part of the path (basename), with a trailing slash
+for base ($WORK_TARGETS); do
+  _1st_arguments+="$(basename ${base})/"
+done
+
+for base ($WORK_ROOTS); do
+  for k ($base/*/); do
+    _1st_arguments+=${k#$base/}
+  done
+done
+
+_arguments -C '*:: :->subcmds' && return 0
+
+if (( CURRENT == 1 )); then
+  _describe -t commands "work subcommand" _1st_arguments
+  return
+fi

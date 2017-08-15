@@ -159,6 +159,7 @@ alias gdmas='git diff master'
 alias gdn='git diff --name-only'
 alias grc='git rc'
 alias gs='git status -s'
+alias gh='git head'
 
 # General aliases
 alias ag='ag --smart-case'

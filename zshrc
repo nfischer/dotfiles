@@ -5,7 +5,7 @@
 if type tmux &>/dev/null; then
   if [[ -z "$TMUX" ]]; then
     # We're not running tmux, so it's safe to start it
-    exec tmux
+    exec tmux -2
   fi
 fi
 
@@ -48,15 +48,33 @@ PATH="$PATH:/bin"
 PATH="$PATH:/usr/games"
 PATH="$PATH:/usr/local/games"
 PATH="$PATH:$HOME/bin"
+PATH="$PATH:$HOME/local-bin"
 PATH="$PATH:$HOME/.npm-global/bin"
 PATH="$PATH:/usr/local/go/bin"
 
 export LESS=-Ri # show colors and smartcase search
 
-# TODO(nate): do I need this one...
-fpath=($fpath "$HOME/bin")
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 autoload -U promptinit; promptinit
+
+# }}}
+# ===============================================================
+# Extra fpath modifications {{{
+# ===============================================================
+
+fpath=($fpath "$HOME/bin")
+fpath=($fpath "$HOME/bin/scripts")
+fpath=($fpath "$HOME/local-bin")
 
 # }}}
 # ===============================================================
@@ -96,30 +114,48 @@ zplug load
 # Plugin configuration {{{
 # ===============================================================
 
-# TODO(nate): or do I need this one instead?
-fpath=($fpath "$HOME/bin")
+##
+# Override the settings for zsh-autosuggestions. I want ➜ to move forward one
+# char in the suggestion, not to accept the entire thing. I prefer ctrl-e to
+# accept the full suggestion. See [Github source code](https://goo.gl/SXLi5V).
+
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(
+  end-of-line
+  vi-add-eol
+  vi-end-of-line
+)
+
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
+  forward-char
+  forward-word
+  vi-forward-blank-word
+  vi-forward-blank-word-end
+  vi-forward-char
+  vi-forward-word
+  vi-forward-word-end
+)
 
 # ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # User configuration
 
+# }}}
+# ===============================================================
+# zsh settings {{{
+# ===============================================================
+
+setopt auto_cd
+
 # setopt no_inc_append_history
 # setopt no_share_history
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# }}}
+# ===============================================================
+# zsh bindings {{{
+# ===============================================================
 
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-else
-  export EDITOR='nvim'
-fi
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# Make ctrl-u work like it does for bash
+bindkey '^u' backward-kill-line
 
 # }}}
 # ===============================================================
@@ -138,7 +174,6 @@ export NVM_DIR="$HOME/.nvm"
 
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
 alias open=open_command
-alias gh='git head'
 
 # }}}
 # ===============================================================
@@ -148,11 +183,14 @@ alias gh='git head'
 # Completion for nan command
 compdef nan=man
 
-setopt auto_cd
+# }}}
+# ===============================================================
+# Local zshrc {{{
+# ===============================================================
 
-# Local zshrc
 if [ -f "$HOME/.local.zshrc" ]; then
   source "$HOME/.local.zshrc"
 fi
+
 # }}}
 # ===============================================================
