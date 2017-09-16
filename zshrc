@@ -63,8 +63,16 @@ export LESS=-Ri # show colors and smartcase search
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
+# Set language for en_US.UTF-8
+# If this causes issues, try these steps:
+#
+#   $ dpkg -l locales (check that "ii" is next to locales)
+#   $ aptitude install locales (if not installed)
+#   $ dpkg-reconfigure locales (press <space> for en_US.UTF-8)
+#
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
