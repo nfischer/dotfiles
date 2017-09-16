@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Create the version strings
+VERSION_OUTPUT="$(tmux -V)"
+VERSION="${VERSION_OUTPUT#tmux }"
+target_version="$1"
+
+# Check the major version
+MAJOR="${VERSION%.*}"
+target_major="${target_version%.*}"
+[ "${MAJOR}" -gt "${target_major}" ] && exit 0
+[ "${MAJOR}" -lt "${target_major}" ] && exit 1
+
+
+# Check the minor version
+MINOR="${VERSION#*.}"
+target_minor="${target_version#*.}"
+[ "${MINOR}" -ge "${target_minor}" ] && exit 0
+
+# This means major version is the same, but the minor version is lower
+exit 1
