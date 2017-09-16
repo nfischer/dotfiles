@@ -46,6 +46,8 @@ HIST_STAMPS="mm/dd/yyyy" # Do not change this, or else history breaks
 # Environmental variables {{{
 # ===============================================================
 
+NPM_PREFIX="$HOME/.npm-global"
+
 export PATH="/usr/local/sbin"
 PATH="$PATH:/usr/local/bin"
 PATH="$PATH:/usr/sbin"
@@ -56,12 +58,14 @@ PATH="$PATH:/usr/games"
 PATH="$PATH:/usr/local/games"
 PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/local-bin"
-PATH="$PATH:$HOME/.npm-global/bin"
+PATH="$PATH:$NPM_PREFIX/bin"
 PATH="$PATH:/usr/local/go/bin"
+
+export NODE_PATH="$NPM_PREFIX/lib/node_modules"
 
 export LESS=-Ri # show colors and smartcase search
 
-# export MANPATH="/usr/local/man:$MANPATH"
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 
 # Set language for en_US.UTF-8
 # If this causes issues, try these steps:
@@ -80,6 +84,7 @@ export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+# TODO(nfischer): move this somewhere else
 autoload -U promptinit; promptinit
 
 # }}}
