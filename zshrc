@@ -134,6 +134,8 @@ zplug load
 # Plugin configuration {{{
 # ===============================================================
 
+SPACESHIP_BATTERY_SHOW=false
+
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
 # char in the suggestion, not to accept the entire thing. I prefer ctrl-e to
