@@ -135,6 +135,7 @@ zplug load
 # ===============================================================
 
 SPACESHIP_BATTERY_SHOW=false
+SPACESHIP_KUBECONTEXT_SHOW=false
 
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
