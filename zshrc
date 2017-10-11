@@ -222,8 +222,8 @@ compdef nan=man
 # Local zshrc {{{
 # ===============================================================
 
-if [ -f "$HOME/.local.zshrc" ]; then
-  source "$HOME/.local.zshrc"
+if [ -f "$HOME/.zshrc.local" ]; then
+  source "$HOME/.zshrc.local"
 fi
 
 # }}}
