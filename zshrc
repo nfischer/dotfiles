@@ -84,9 +84,6 @@ export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# TODO(nfischer): move this somewhere else
-autoload -U promptinit; promptinit
-
 # }}}
 # ===============================================================
 # Extra fpath modifications {{{
