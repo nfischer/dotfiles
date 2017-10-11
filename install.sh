@@ -57,10 +57,5 @@ for k in *; do
   fi
 done
 
-# Perform npm install for bin/
-if which npm &>/dev/null; then
-  echo ""
-  white 'Installing npm packages'
-  cd bin/
-  npm install
-fi
+echo ''
+white 'Remember to install npm packages'
