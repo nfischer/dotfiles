@@ -18,10 +18,8 @@ notifications:
 addons:
   apt:
     packages:
-    - nvim
     - git
     - git-extras
     - tmux
     - xbindkeys
     - zsh
-    - z
