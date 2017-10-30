@@ -1,0 +1,13 @@
+language: generic
+sudo: false
+
+# keep this blank to make sure there are no before_install steps
+before_install:
+
+install:
+  - ./install.sh
+os:
+  - linux
+  - osx
+notifications:
+  email: false
