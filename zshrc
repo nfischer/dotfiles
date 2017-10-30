@@ -120,7 +120,11 @@ zplug 'plugins/z',            from:oh-my-zsh
 zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
-zplug '~/programming/crystal-zsh', from:local
+
+# local plugins
+if [ -f "$HOME/.local-zplug.zsh" ]; then
+  source "$HOME/.local-zplug.zsh"
+fi
 
 # zplug 'plugins/safe-paste',   from:oh-my-zsh
 
