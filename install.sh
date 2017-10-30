@@ -3,12 +3,12 @@
 IFS='
 '
 
-readonly RED='\e[1;31m'
-readonly GREEN='\e[1;32m'
-readonly YELLOW='\e[1;33m'
-readonly BLUE='\e[1;34m'
-readonly WHITE='\e[1;37m'
-readonly NORM='\e[0m'
+readonly RED='\033[1;31m'
+readonly GREEN='\033[1;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[1;34m'
+readonly WHITE='\033[1;37m'
+readonly NORM='\033[0m'
 
 yellow() {
   echo -e "${YELLOW}$1${NORM}"
