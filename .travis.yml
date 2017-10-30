@@ -1,13 +1,25 @@
 language: generic
 sudo: false
 
-# keep this blank to make sure there are no before_install steps
 before_install:
+  - ./new_comp.sh
 
 install:
   - ./install.sh
+script:
+  - zsh  -c '[[ -z "$(source "$HOME/.zshrc"  &>/dev/null)" ]]'
+  - bash -c '[[ -z "$(source "$HOME/.bashrc" &>/dev/null)" ]]'
 os:
   - linux
   - osx
 notifications:
   email: false
+
+addons:
+  apt:
+    packages:
+    - git
+    - git-extras
+    - tmux
+    - xbindkeys
+    - zsh
