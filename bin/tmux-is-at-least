@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Accepts one parameter of the form `x.y`, where x,y are integers
+# Returns true if `tmux -V` is `x.y` or greater
+
 # Create the version strings
 VERSION_OUTPUT="$(tmux -V)"
 VERSION="${VERSION_OUTPUT#tmux }"
