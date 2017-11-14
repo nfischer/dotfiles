@@ -212,6 +212,9 @@ alias -s txt="$EDITOR"
 alias -s vim="$EDITOR"
 alias -s xml="$EDITOR"
 
+# Global aliases
+alias -g -- '--help'='--help 2>&1 | less -RFX'
+
 # }}}
 # ===============================================================
 # Other goodies {{{
