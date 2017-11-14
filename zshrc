@@ -60,6 +60,7 @@ PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/local-bin"
 PATH="$PATH:$NPM_PREFIX/bin"
 PATH="$PATH:/usr/local/go/bin"
+PATH="$PATH:$HOME/.cargo/bin"
 
 export NODE_PATH="$NPM_PREFIX/lib/node_modules"
 
@@ -110,6 +111,7 @@ zplug 'lib/nvm',              from:oh-my-zsh
 zplug 'lib/spectrum',         from:oh-my-zsh
 zplug 'lib/termsupport',      from:oh-my-zsh
 zplug 'lib/theme-and-appearance',  from:oh-my-zsh
+zplug 'plugins/cargo',        from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/git',          from:oh-my-zsh
 zplug 'plugins/git-extras',   from:oh-my-zsh
