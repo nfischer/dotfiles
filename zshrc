@@ -102,23 +102,23 @@ fpath=($fpath "$HOME/local-bin")
 source ~/.zplug/init.zsh
 
 zplug 'denysdovhan/spaceship-zsh-theme', use:spaceship.zsh, from:github, as:theme
-zplug 'lib/completion',       from:oh-my-zsh
-zplug 'lib/directories',      from:oh-my-zsh
-zplug 'lib/functions',        from:oh-my-zsh
-zplug 'lib/history',          from:oh-my-zsh
-zplug 'lib/key-bindings',     from:oh-my-zsh
-zplug 'lib/nvm',              from:oh-my-zsh
-zplug 'lib/spectrum',         from:oh-my-zsh
-zplug 'lib/termsupport',      from:oh-my-zsh
+zplug 'lib/completion',            from:oh-my-zsh
+zplug 'lib/directories',           from:oh-my-zsh
+zplug 'lib/functions',             from:oh-my-zsh
+zplug 'lib/history',               from:oh-my-zsh
+zplug 'lib/key-bindings',          from:oh-my-zsh
+zplug 'lib/nvm',                   from:oh-my-zsh
+zplug 'lib/spectrum',              from:oh-my-zsh
+zplug 'lib/termsupport',           from:oh-my-zsh
 zplug 'lib/theme-and-appearance',  from:oh-my-zsh
-zplug 'plugins/cargo',        from:oh-my-zsh
+zplug 'plugins/cargo',             from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
-zplug 'plugins/git',          from:oh-my-zsh
-zplug 'plugins/git-extras',   from:oh-my-zsh
-zplug 'plugins/go',           from:oh-my-zsh
-zplug 'plugins/npm',          from:oh-my-zsh
-zplug 'plugins/nvm',          from:oh-my-zsh
-zplug 'plugins/z',            from:oh-my-zsh
+zplug 'plugins/git',               from:oh-my-zsh
+zplug 'plugins/git-extras',        from:oh-my-zsh
+zplug 'plugins/go',                from:oh-my-zsh
+zplug 'plugins/npm',               from:oh-my-zsh
+zplug 'plugins/nvm',               from:oh-my-zsh
+zplug 'plugins/z',                 from:oh-my-zsh
 zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
