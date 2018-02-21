@@ -101,7 +101,7 @@ fpath=($fpath "$HOME/local-bin")
 
 source ~/.zplug/init.zsh
 
-zplug 'denysdovhan/spaceship-zsh-theme', use:spaceship.zsh, from:github, as:theme
+zplug 'denysdovhan/spaceship-prompt', use:spaceship.zsh, from:github, as:theme
 zplug 'lib/completion',            from:oh-my-zsh
 zplug 'lib/directories',           from:oh-my-zsh
 zplug 'lib/functions',             from:oh-my-zsh
@@ -118,7 +118,6 @@ zplug 'plugins/git-extras',        from:oh-my-zsh
 zplug 'plugins/go',                from:oh-my-zsh
 zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
-zplug 'plugins/z',                 from:oh-my-zsh
 zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
@@ -137,8 +136,33 @@ zplug load
 # Plugin configuration {{{
 # ===============================================================
 
-SPACESHIP_BATTERY_SHOW=false
-SPACESHIP_KUBECONTEXT_SHOW=false
+SPACESHIP_ADB_SHOW="${SPACESHIP_ADB_SHOW=true}"
+SPACESHIP_ADB_TRUNC="${SPACESHIP_ADB_TRUNC=6}"
+SPACESHIP_ADB_PREFIX="${SPACESHIP_ADB_PREFIX="using "}"
+SPACESHIP_ADB_SUFFIX="${SPACESHIP_ADB_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
+SPACESHIP_ADB_SYMBOL="${SPACESHIP_ADB_SYMBOL="🍭 "}"
+SPACESHIP_ADB_COLOR="${SPACESHIP_ADB_COLOR="black"}"
+
+spaceship_adb() {
+  [ $SPACESHIP_ADB_SHOW == false ] && return
+  [ -z "${ANDROID_SERIAL}" ] && return
+
+  local serial=${ANDROID_SERIAL[0,${SPACESHIP_ADB_TRUNC}]}
+
+  spaceship::section \
+    "$SPACESHIP_ADB_COLOR" \
+    "$SPACESHIP_ADB_PREFIX" \
+    "${SPACESHIP_ADB_SYMBOL}${serial}" \
+    "$SPACESHIP_ADB_SUFFIX"
+}
+
+idx=${SPACESHIP_PROMPT_ORDER[(i)line_sep]}
+SPACESHIP_PROMPT_ORDER=(
+  ${SPACESHIP_PROMPT_ORDER[0,$((idx-1))]}
+  adb
+  ${SPACESHIP_PROMPT_ORDER[${idx},$]}
+)
+unset idx
 
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
