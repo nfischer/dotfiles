@@ -118,6 +118,7 @@ zplug 'plugins/git-extras',        from:oh-my-zsh
 zplug 'plugins/go',                from:oh-my-zsh
 zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
+zplug 'plugins/repo',              from:oh-my-zsh
 zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
