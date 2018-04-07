@@ -137,33 +137,7 @@ zplug load
 # Plugin configuration {{{
 # ===============================================================
 
-SPACESHIP_ADB_SHOW="${SPACESHIP_ADB_SHOW=true}"
-SPACESHIP_ADB_TRUNC="${SPACESHIP_ADB_TRUNC=6}"
-SPACESHIP_ADB_PREFIX="${SPACESHIP_ADB_PREFIX="using "}"
-SPACESHIP_ADB_SUFFIX="${SPACESHIP_ADB_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
-SPACESHIP_ADB_SYMBOL="${SPACESHIP_ADB_SYMBOL="🍭 "}"
-SPACESHIP_ADB_COLOR="${SPACESHIP_ADB_COLOR="black"}"
-
-spaceship_adb() {
-  [ $SPACESHIP_ADB_SHOW == false ] && return
-  [ -z "${ANDROID_SERIAL}" ] && return
-
-  local serial=${ANDROID_SERIAL[0,${SPACESHIP_ADB_TRUNC}]}
-
-  spaceship::section \
-    "$SPACESHIP_ADB_COLOR" \
-    "$SPACESHIP_ADB_PREFIX" \
-    "${SPACESHIP_ADB_SYMBOL}${serial}" \
-    "$SPACESHIP_ADB_SUFFIX"
-}
-
-idx=${SPACESHIP_PROMPT_ORDER[(i)line_sep]}
-SPACESHIP_PROMPT_ORDER=(
-  ${SPACESHIP_PROMPT_ORDER[0,$((idx-1))]}
-  adb
-  ${SPACESHIP_PROMPT_ORDER[${idx},$]}
-)
-unset idx
+SPACESHIP_GIT_BRANCH_PREFIX='⎇  '
 
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
@@ -187,8 +161,6 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 )
 
 # ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-
-# User configuration
 
 # }}}
 # ===============================================================
