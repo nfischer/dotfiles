@@ -48,6 +48,9 @@ HIST_STAMPS="mm/dd/yyyy" # Do not change this, or else history breaks
 
 NPM_PREFIX="$HOME/.npm-global"
 
+# Used by `go get` to decide where to install packages.
+export GOPATH="$HOME/.gopackages"
+
 export PATH="/usr/local/sbin"
 PATH="$PATH:/usr/local/bin"
 PATH="$PATH:/usr/sbin"
@@ -60,6 +63,7 @@ PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/local-bin"
 PATH="$PATH:$NPM_PREFIX/bin"
 PATH="$PATH:/usr/local/go/bin"
+PATH="$PATH:$GOPATH/bin"
 PATH="$PATH:$HOME/.cargo/bin"
 
 export NODE_PATH="$NPM_PREFIX/lib/node_modules"
@@ -81,6 +85,9 @@ export LANGUAGE=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
+
+# For GPG commit signing
+export GPG_TTY=$(tty)
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
