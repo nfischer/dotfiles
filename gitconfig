@@ -34,3 +34,7 @@
 	newHighlight = green bold 22
 [pretty]
 	commitdate = format:%C(yellow)commit %H %C(auto)%d%n%C(white)Author:     %an <%ae>%nCommitDate: %ad%n%n%C(white)%w(0,4,4)%B%n
+[include]
+	path = ~/.gitconfig.local
+[stash]
+	showPatch = true
