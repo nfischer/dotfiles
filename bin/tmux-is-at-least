@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Accepts one parameter of the form `x.y`, where x,y are integers
-# Returns true if `tmux -V` is `x.y` or greater
+# Returns true if `tmux -V` is `x.y` or greater. Example, `tmux-is-at-least 2.1`
+# returns true when `tmux -V` is 2.2, but false when it's 1.7.
 
 # Create the version strings
 VERSION_OUTPUT="$(tmux -V)"
@@ -14,8 +15,7 @@ target_major="${target_version%.*}"
 [ "${MAJOR}" -gt "${target_major}" ] && exit 0
 [ "${MAJOR}" -lt "${target_major}" ] && exit 1
 
-
-# Check the minor version
+# If major version is the same, check the minor version
 MINOR="${VERSION#*.}"
 target_minor="${target_version#*.}"
 [ "${MINOR}" -ge "${target_minor}" ] && exit 0
