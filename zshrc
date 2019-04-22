@@ -145,6 +145,7 @@ zplug load
 # ===============================================================
 
 SPACESHIP_GIT_BRANCH_PREFIX='⎇  '
+SPACESHIP_DIR_LOCK_SYMBOL='🔒 '
 
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
