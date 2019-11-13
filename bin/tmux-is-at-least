@@ -5,8 +5,9 @@
 # returns true when `tmux -V` is 2.2, but false when it's 1.7.
 
 # Create the version strings
-VERSION_OUTPUT="$(tmux -V)"
-VERSION="${VERSION_OUTPUT#tmux }"
+# Note: this filters output like "tmux 2.9a" to "2.9", so it strips all
+# suffixes.
+VERSION="$(tmux -V | tr -d -c '0-9.')"
 target_version="$1"
 
 # Check the major version
