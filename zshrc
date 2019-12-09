@@ -119,6 +119,7 @@ zplug 'lib/spectrum',              from:oh-my-zsh
 zplug 'lib/termsupport',           from:oh-my-zsh
 zplug 'lib/theme-and-appearance',  from:oh-my-zsh
 zplug 'plugins/cargo',             from:oh-my-zsh
+zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/git',               from:oh-my-zsh
 zplug 'plugins/git-extras',        from:oh-my-zsh
@@ -126,7 +127,7 @@ zplug 'plugins/go',                from:oh-my-zsh
 zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
 zplug 'plugins/repo',              from:oh-my-zsh
-zplug 'supercrabtree/k'
+zplug 'k4rthik/git-cal',           as:command
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
 
