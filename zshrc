@@ -123,6 +123,7 @@ zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/git',               from:oh-my-zsh
 zplug 'plugins/git-extras',        from:oh-my-zsh
+zplug 'plugins/gitfast',           from:oh-my-zsh
 zplug 'plugins/go',                from:oh-my-zsh
 zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
@@ -188,6 +189,13 @@ setopt auto_cd
 
 # Make ctrl-u work like it does for bash
 bindkey '^u' backward-kill-line
+
+# }}}
+# ===============================================================
+# fzf {{{
+# ===============================================================
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # }}}
 # ===============================================================
