@@ -197,6 +197,10 @@ bindkey '^u' backward-kill-line
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Ctrl-t is mapped in tmux to open my browser, so remap fzf's ctr-t
+# functionality to ctrl-f
+bindkey '^F' fzf-file-widget
+
 # }}}
 # ===============================================================
 # nvm {{{
