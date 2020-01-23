@@ -21,10 +21,20 @@ if [ -z "$CI" ]; then
 fi
 
 # Install node version manager
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash || echo "Couldn't install nvm" >&2
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash ||
+  echo "nvm installation failed" >&2
 
 # Install zplug
-curl -sL zplug.sh/installer | zsh || echo 'zplug installation failed'
+curl -sL zplug.sh/installer | zsh || echo 'zplug installation failed' >&2
+
+# Install tmux plugin manager
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [ -d "${TPM_DIR}" ]; then
+  echo "TPM already installed at ${TPM_DIR}, skipping..."
+else
+  git clone https://github.com/tmux-plugins/tpm "${TPM_DIR}" ||
+    echo 'tpm installation failed' >&2
+fi
 
 mkdir -p "$HOME/packages"
 
