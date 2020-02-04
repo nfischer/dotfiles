@@ -129,6 +129,7 @@ zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
 zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/repo',              from:oh-my-zsh
+zplug 'romkatv/zsh-prompt-benchmark'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
 
