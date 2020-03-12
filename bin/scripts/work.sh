@@ -28,7 +28,7 @@ work_helper() {
   for target in "${WORK_TARGETS[@]}"; do
     base_target_name="$(basename "${target}")"
     target_name="$(remove_trailing_slash "${base_target_name}")"
-    if [ "${dir}" == "${target_name}" ]; then
+    if [[ "${dir}" == "${target_name}" ]]; then
       cd "${target}" 2>/dev/null && return 0
     fi
   done
