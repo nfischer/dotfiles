@@ -120,7 +120,6 @@ fpath=($fpath "$HOME/local-bin")
 
 source ~/.zplug/init.zsh
 
-zplug 'k4rthik/git-cal',           as:command
 zplug 'lib/completion',            from:oh-my-zsh
 zplug 'lib/directories',           from:oh-my-zsh
 zplug 'lib/functions',             from:oh-my-zsh
