@@ -11,6 +11,18 @@ fi
 
 # }}}
 # ===============================================================
+# powerlevel10k instant prompt {{{
+# ===============================================================
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# }}}
+# ===============================================================
 # Functions {{{
 # ===============================================================
 
@@ -108,7 +120,6 @@ fpath=($fpath "$HOME/local-bin")
 
 source ~/.zplug/init.zsh
 
-zplug 'denysdovhan/spaceship-prompt', use:spaceship.zsh, from:github, as:theme
 zplug 'k4rthik/git-cal',           as:command
 zplug 'lib/completion',            from:oh-my-zsh
 zplug 'lib/directories',           from:oh-my-zsh
@@ -129,6 +140,7 @@ zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
 zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/repo',              from:oh-my-zsh
+zplug 'romkatv/powerlevel10k', as:theme, depth:1
 zplug 'romkatv/zsh-prompt-benchmark'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
@@ -147,8 +159,12 @@ zplug load
 # Plugin configuration {{{
 # ===============================================================
 
-SPACESHIP_GIT_BRANCH_PREFIX='⎇  '
-SPACESHIP_DIR_LOCK_SYMBOL='🔒 '
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+POWERLEVEL9K_DISK_USAGE_ONLY_WARNING=true
+POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL=90
+POWERLEVEL9K_DISK_USAGE_CRITICAL_LEVEL="$POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL"
 
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
