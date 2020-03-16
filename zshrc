@@ -165,6 +165,9 @@ POWERLEVEL9K_DISK_USAGE_ONLY_WARNING=true
 POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL=90
 POWERLEVEL9K_DISK_USAGE_CRITICAL_LEVEL="$POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL"
 
+# White prompt character
+typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=255
+
 ##
 # Override the settings for zsh-autosuggestions. I want ➜ to move forward one
 # char in the suggestion, not to accept the entire thing. I prefer ctrl-e to
