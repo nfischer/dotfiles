@@ -206,6 +206,10 @@ setopt auto_cd
 # Make ctrl-u work like it does for bash
 bindkey '^u' backward-kill-line
 
+# Unbind ctrl-b. It's my tmux prefix, so I tend to hit this out of habit even on
+# systems where I haven't installed tmux.
+bindkey -r '^b'
+
 # }}}
 # ===============================================================
 # fzf {{{
