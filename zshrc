@@ -142,6 +142,7 @@ zplug 'plugins/repo',              from:oh-my-zsh
 zplug 'romkatv/powerlevel10k', as:theme, depth:1
 zplug 'romkatv/zsh-prompt-benchmark'
 zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting',        defer:2
 
 # local plugins
