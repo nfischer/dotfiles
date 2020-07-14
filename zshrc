@@ -73,10 +73,11 @@ PATH="$PATH:/usr/games"
 PATH="$PATH:/usr/local/games"
 PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/local-bin"
-PATH="$PATH:$NPM_PREFIX/bin"
-PATH="$PATH:/usr/local/go/bin"
-PATH="$PATH:$GOPATH/bin"
-PATH="$PATH:$HOME/.cargo/bin"
+PATH="$PATH:$NPM_PREFIX/bin"   # node/npm
+PATH="$PATH:/usr/local/go/bin" # go
+PATH="$PATH:$GOPATH/bin"       # go packages
+PATH="$PATH:$HOME/.cargo/bin"  # rust/cargo
+PATH="$PATH:$HOME/.local/bin"  # python/pip
 
 export NODE_PATH="$NPM_PREFIX/lib/node_modules"
 
