@@ -15,7 +15,6 @@
 	cob = checkout -b
 	cy = cherry-pick
 	head = "!f() { [ -z $1 ] && git diff HEAD || git diff \"HEAD~$1\"; }; f"
-	mas = checkout master
 	rc = commit -a --amend --no-edit
 	rv = remote -v
 	sh = stash

@@ -153,7 +153,7 @@ alias clera=clear
 alias lau=lua
 
 # Git aliases
-alias gdmas='git diff master'
+alias gdm='git diff master'
 alias gdn='git diff --name-only'
 alias gh='git head'
 alias glg='git log --pretty=commitdate --stat'
