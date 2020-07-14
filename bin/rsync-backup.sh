@@ -10,7 +10,7 @@ readonly DRIVE_NAME="WDElements"
 readonly EXCLUDE_LIST="$HOME/backup-exclude-list.txt"
 
 readonly host="$(hostname)"
-readonly date="$(date '+%m-%d-%y')"
+readonly date="$(date -I)"
 readonly output_dir="/media/$USER/$DRIVE_NAME/${host}-${date}/"
 
 # Must have trailing slash
