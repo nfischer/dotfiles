@@ -153,12 +153,31 @@ alias clera=clear
 alias lau=lua
 
 # Git aliases
-alias gdm='git diff master'
 alias gdn='git diff --name-only'
 alias gh='git head'
 alias glg='git log --pretty=commitdate --stat'
 alias grc='git rc'
 alias gs='git status -sb'
+
+# More flexible version of OMZ's git_main_branch. Extend this with:
+# GIT_MAIN_BRANCHES=(my-cool-branch "${GIT_MAIN_BRANCHES[@]}")
+declare -a GIT_MAIN_BRANCHES=(
+  main
+  master
+)
+git_main_branch() {
+  local _branch
+  for _branch in "${GIT_MAIN_BRANCHES[@]}"; do
+    if git show-ref --verify --quiet "refs/heads/${_branch}"; then
+      echo "${_branch}"
+      return
+    fi
+  done
+  echo "${_branch}"
+}
+
+alias gcm='git checkout "$(git_main_branch)"'
+alias gdm='git diff "$(git_main_branch)"'
 
 # General aliases
 alias ag='ag --smart-case'
