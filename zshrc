@@ -136,10 +136,10 @@ zplug 'plugins/git',               from:oh-my-zsh
 zplug 'plugins/git-extras',        from:oh-my-zsh
 zplug 'plugins/gitfast',           from:oh-my-zsh
 zplug 'plugins/golang',            from:oh-my-zsh
-zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/nvm',               from:oh-my-zsh
 zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/repo',              from:oh-my-zsh
+zplug 'lukechilds/zsh-better-npm-completion'
 zplug 'romkatv/powerlevel10k', as:theme, depth:1
 zplug 'romkatv/zsh-prompt-benchmark'
 zplug 'zsh-users/zsh-autosuggestions'
