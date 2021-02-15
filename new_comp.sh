@@ -38,6 +38,7 @@ Consider the following apt packages:
  - gawk (hidden dependency of zplug)
  - arc-theme gnome-tweak-tool
  - xclip
+ - abcde
 
 Consider the following pip packages:
  - pip3 install --user pynvim
