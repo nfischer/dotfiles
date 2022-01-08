@@ -5,12 +5,7 @@
   "description": "",
   "main": "build.js",
   "dependencies": {
-    "google-spreadsheet": "^2.0.3",
-    "jquery": "^3.0.0",
-    "jsdom": "^9.3.0",
-    "shelljs": "^0.7.0",
-    "xmldom": "^0.1.22",
-    "xpath": "0.0.21"
+    "shelljs": "^0.8.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

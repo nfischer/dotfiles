@@ -4,3 +4,5 @@
 .DS_Store
 
 install-this-stuff/
+
+/bin/package-lock.json
