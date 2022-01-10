@@ -5,11 +5,16 @@
   "description": "",
   "main": "build.js",
   "dependencies": {
+    "chalk": "^3.0.0",
+    "js-yaml": "^4.1.0",
     "shelljs": "^0.8.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=8"
+  }
 }
