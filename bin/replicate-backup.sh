@@ -27,19 +27,15 @@ readonly backup_folder_name="${original_backup##*/}"
 readonly output_dir="${other_drive}/${backup_folder_name}/"
 
 # Must have trailing slash
-echo "Copy ${original_backup} up into '${output_dir}'"
+echo "Copy '${original_backup}' into '${output_dir}'"
 read -p "Press enter to continue (ctrl-c to quit)" dummyvar
 
 # If this fails, it indicates some bad state
 mkdir "${output_dir}"
 
-backup_start="$(date +%s)"
 rsync --info=progress2 -av --exclude-from="$EXCLUDE_LIST" \
   "$original_backup/" \
   "${output_dir}"
-backup_end="$(date +%s)"
-
-runtime=$((backup_end-backup_start))
 
 echo ""
 cat "${output_dir}/BACKUP_METADATA.txt"
