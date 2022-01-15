@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var shell = require('shelljs');
+shell.set('-e');
+
+var currentBranch = shell.exec('git rev-parse --abbrev-ref HEAD', {
+  silent: true
+}).trim();
+if (currentBranch === 'main') {
+  console.error('Already renamed to "main", nothing to do');
+  shell.exit(1);
+}
+if (currentBranch !== 'master') {
+  console.error('Please switch to "master" branch (currently on '
+      + JSON.stringify(currentBranch) + ')');
+  shell.exit(2);
+}
+
+shell.exec('git branch -m master main');
+shell.exec('git fetch origin');
+shell.exec('git branch -u origin/main main');
+shell.exec('git remote set-head origin -a');
+shell.exec('git remote prune origin');
