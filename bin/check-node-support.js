@@ -135,6 +135,18 @@ function changeToPackageRoot() {
   }
 }
 
+function maybeRunNpmScript() {
+  var package = require(path.resolve('package.json'));
+  if (package.scripts && package.scripts['check-node-support']) {
+    var cmd = 'npm run check-node-support';
+    console.log(chalk.yellow.bold('This package has its own npm script: ' + cmd));
+    shell.exec(cmd);
+    if (shell.error()) {
+      console.error(chalk.red.bold(shell.error()));
+    }
+  }
+}
+
 try {
   changeToPackageRoot();
 
@@ -144,6 +156,8 @@ try {
   checkReadme(minVersion);
 
   checkGithubActions(minVersion);
+
+  maybeRunNpmScript();
 } catch (e) {
   console.error(chalk.red.bold(e));
   shell.exit(1);
