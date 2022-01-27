@@ -48,10 +48,12 @@ safe_add_path() # should only be used to dynamically add to the path
 
 # }}}
 # ===============================================================
-# Miscellaneous {{{
+# History {{{
 # ===============================================================
 
 HIST_STAMPS="mm/dd/yyyy" # Do not change this, or else history breaks
+SAVEHIST=1000000
+HISTSIZE="$SAVEHIST"
 
 # }}}
 # ===============================================================
