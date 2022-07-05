@@ -61,10 +61,11 @@ runtime=$(((backup_end-backup_start)/60))
 log_metadata() {
   echo -e "$@" >> "${output_dir}/BACKUP_METADATA.txt"
 }
-log_metadata "Backed up on $(date)"
+log_metadata "Backed up on: $(date)"
 log_metadata "Size: $(du -sh "${output_dir}")"
 log_metadata "Time to backup: ${runtime} minutes"
-log_metadata "\nTop-level files and folders:\n$(ls ${output_dir})"
+log_metadata "\n======================================"
+log_metadata "\nTop-level files and folders:\n\n$(ls ${output_dir})"
 
 echo ""
 cat "${output_dir}/BACKUP_METADATA.txt"
