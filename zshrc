@@ -107,6 +107,9 @@ export GPG_TTY=$(tty)
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+# Configure word boundaries/separators, particularly for backward-word.
+export WORDCHARS='_-[]~|&!%^()'
+
 # }}}
 # ===============================================================
 # Extra fpath modifications {{{
@@ -132,8 +135,10 @@ zplug 'lib/nvm',                   from:oh-my-zsh
 zplug 'lib/spectrum',              from:oh-my-zsh
 zplug 'lib/termsupport',           from:oh-my-zsh
 zplug 'lib/theme-and-appearance',  from:oh-my-zsh
+zplug 'plugins/adb'  ,             from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/git',               from:oh-my-zsh
+zplug 'plugins/npm',               from:oh-my-zsh
 zplug 'plugins/git-extras',        from:oh-my-zsh
 zplug 'plugins/gitfast',           from:oh-my-zsh
 zplug 'plugins/golang',            from:oh-my-zsh
@@ -141,8 +146,9 @@ zplug 'plugins/nvm',               from:oh-my-zsh
 zplug 'plugins/pip',               from:oh-my-zsh
 zplug 'plugins/repo',              from:oh-my-zsh
 zplug 'plugins/rust',              from:oh-my-zsh
-zplug 'lukechilds/zsh-better-npm-completion'
+zplug 'gradle/gradle-completion'
 zplug 'romkatv/powerlevel10k', as:theme, depth:1
+zplug 'romkatv/zsh-defer'
 zplug 'romkatv/zsh-prompt-benchmark'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
@@ -256,19 +262,22 @@ alias -s md="$EDITOR"
 alias -s txt="$EDITOR"
 alias -s vim="$EDITOR"
 alias -s xml="$EDITOR"
+alias -s gn=$EDITOR
 
 # Global aliases
 alias -g -- '-help'='-help 2>&1 | less -RFX; true'
 alias -g -- '--help'='--help 2>&1 | less -RFX; true'
 alias -g -- '--helpfull'='--helpfull 2>&1 | less -RFX; true'
+alias -g -- .lv=~/.vimrc.local
+alias -g -- .lz=~/.zshrc.local
 
 # }}}
 # ===============================================================
-# Other goodies {{{
+# Compdef for other commands {{{
 # ===============================================================
 
-# Completion for nan command
 compdef nan=man
+compdef google-chrome=chromium
 
 # }}}
 # ===============================================================
