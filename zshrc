@@ -102,7 +102,7 @@ export LANGUAGE=en_US.UTF-8
 export EDITOR="$(sh -c 'which nvim || which vim || which vi')"
 
 # For GPG commit signing
-export GPG_TTY=$(tty)
+export GPG_TTY="$TTY"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
