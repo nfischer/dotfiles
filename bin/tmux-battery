@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# echo "49%"
-upower -i $(upower -e | grep BAT) |
-grep --color=never -E "percentage" |
-sed 's/ \+percentage: \+//g'
