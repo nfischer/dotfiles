@@ -41,19 +41,21 @@ find_drive() {
 }
 
 drive_name="$(find_drive)"
-output_dir="/media/$USER/$drive_name/${host}-${date}/"
+drive_path="/media/$USER/${drive_name}"
+output_dir="${drive_path}/${host}-${date}"
+free_space="$(df -h "${drive_path}" | tail -1 | awk '{print $4}')"
 
-# Must have trailing slash
-echo "Backing up into '${output_dir}'"
+echo "Backing up into '${output_dir}/'"
+echo "Free space on external drive: ${free_space}"
 read -p "Press enter to continue (ctrl-c to quit)" dummyvar
 
 # If this fails, it indicates some bad state
-mkdir "${output_dir}"
+mkdir "${output_dir}/"
 
 backup_start="$(date +%s)"
 rsync --info=progress2 -av --exclude-from="$EXCLUDE_LIST" \
   "$HOME/" \
-  "${output_dir}"
+  "${output_dir}/"
 backup_end="$(date +%s)"
 
 runtime=$(((backup_end-backup_start)/60))
@@ -62,10 +64,10 @@ log_metadata() {
   echo -e "$@" >> "${output_dir}/BACKUP_METADATA.txt"
 }
 log_metadata "Backed up on: $(date)"
-log_metadata "Size: $(du -sh "${output_dir}")"
+log_metadata "Size: $(du -sh "${output_dir}/")"
 log_metadata "Time to backup: ${runtime} minutes"
 log_metadata "\n======================================"
-log_metadata "\nTop-level files and folders:\n\n$(ls ${output_dir})"
+log_metadata "\nTop-level files and folders:\n\n$(ls ${output_dir}/)"
 
 echo ""
 cat "${output_dir}/BACKUP_METADATA.txt"
