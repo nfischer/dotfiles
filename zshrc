@@ -2,11 +2,11 @@
 # Start tmux by default {{{
 # ===============================================================
 
-if type tmux &>/dev/null; then
-  if [[ -z "$TMUX" ]]; then
-    # We're not running tmux, so it's safe to start it
-    exec tmux -2
-  fi
+# Replace the current shell with tmux if (1) tmux is installed, (2) we are not
+# already running tmux, and (3) this is an interactive shell.
+if type tmux &>/dev/null && [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
+  # '-2' means to support 256 colors
+  exec tmux -2
 fi
 
 # }}}
