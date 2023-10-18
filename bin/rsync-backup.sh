@@ -40,6 +40,41 @@ find_drive() {
   fi
 }
 
+convert_number() {
+  local num="$1"
+
+  local num_int="${num:0:${#num}-1}"
+  local num_units="${num: -1}"
+  # Assume num has units on the end. Also, keep this simple by just multiplying
+  # by 1000 (instead of 1024, which would be more correct).
+  if [[ "${num_units}" == "G" ]]; then
+    num_int=$(($num_int*1000))
+    local num_units="M"
+  fi
+  if [[ "${num_units}" == "M" ]]; then
+    num_int=$(($num_int*1000))
+    local num_units="K"
+  fi
+  if [[ "${num_units}" == "K" ]]; then
+    num_int=$(($num_int*1000))
+    local num_units=""
+  fi
+  echo "${num_int}"
+}
+
+warn_if_insufficent_space() {
+  local last_backup_dir="$1"
+  local free_space="$2"
+
+  local last_backup_dir_size="$(convert_number "${last_backup_dir}")"
+  local free_space_size="$(convert_number "${free_space}")"
+
+  local margin=2000000000 # 2G
+  if [[ "$(($last_backup_dir_size+$margin))" > "${free_space_size}" ]]; then
+    echo "WARN: there may not be enough space to backup on the external drive"
+  fi
+}
+
 drive_name="$(find_drive)"
 drive_path="/media/$USER/${drive_name}"
 output_dir="${drive_path}/${host}-${date}"
@@ -47,6 +82,16 @@ free_space="$(df -h "${drive_path}" | tail -1 | awk '{print $4}')"
 
 echo "Backing up into '${output_dir}/'"
 echo "Free space on external drive: ${free_space}"
+
+last_backup_dir="$(ls -d "${drive_path}/${host}-"* 2>/dev/null | tail -n 1)"
+if [[ -z "${last_backup_dir}" ]]; then
+  echo "Cannot find a previous backup for '${host}' so cannot estimate backup size." >&2
+else
+  last_backup_size="$(sed -En 's/^Size: ([0-9]+[KMG]?)\t.*$/\1/p' "${last_backup_dir}/BACKUP_METADATA.txt")"
+  echo "Last backup (${last_backup_dir}) was ${last_backup_size}"
+  warn_if_insufficent_space "${last_backup_size}" "${free_space}"
+fi
+
 read -p "Press enter to continue (ctrl-c to quit)" dummyvar
 
 # If this fails, it indicates some bad state
