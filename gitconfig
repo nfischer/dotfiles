@@ -46,3 +46,5 @@
 	# https://blog.github.com/2018-04-05-git-217-released/
 	# Show blocks of moved text of at least 20 alphanumeric characters differently than adds/deletes
 	colorMoved = zebra
+[init]
+	defaultBranch = main
