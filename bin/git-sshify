@@ -6,7 +6,7 @@ shell.config.silent = true;
 var remote = process.argv[2] || 'origin';
 
 // TODO(nfischer): replace `stdout.split` with `.toArray` when it's supported.
-var line = shell.exec('git remote -v').grep(remote).stdout.split('\n')[0];
+var line = shell.cmd('git', 'remote', '-v').grep(remote).stdout.split('\n')[0];
 
 var regex = new RegExp(`${remote}.*https://github.com/([^ .]*)/([^ .]*)(.git)?`, '');
 var match = line.match(regex);
@@ -14,7 +14,7 @@ if (match) {
   var user = match[1];
   var repo = match[2];
   shell.config.silent = false;
-  var ret = shell.exec(`git remote set-url ${remote} git@github.com:${user}/${repo}.git`);
+  var ret = shell.cmd('git', 'remote', 'set-url', remote, `git@github.com:${user}/${repo}.git`);
   if (ret.code === 0) {
     console.log('Done');
   } else {

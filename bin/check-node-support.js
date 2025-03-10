@@ -140,7 +140,8 @@ function maybeRunNpmScript() {
   if (package.scripts && package.scripts['check-node-support']) {
     var cmd = 'npm run check-node-support';
     console.log(chalk.yellow.bold('This package has its own npm script: ' + cmd));
-    shell.exec(cmd);
+    var result = shell.cmd('npm', 'run', 'check-node-support');
+    console.log(result.stdout);
     if (shell.error()) {
       console.error(chalk.red.bold(shell.error()));
     }
