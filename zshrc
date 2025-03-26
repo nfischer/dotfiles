@@ -135,7 +135,6 @@ zplug 'lib/nvm',                   from:oh-my-zsh
 zplug 'lib/spectrum',              from:oh-my-zsh
 zplug 'lib/termsupport',           from:oh-my-zsh
 zplug 'lib/theme-and-appearance',  from:oh-my-zsh
-zplug 'plugins/adb'  ,             from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/git',               from:oh-my-zsh
 zplug 'plugins/npm',               from:oh-my-zsh
