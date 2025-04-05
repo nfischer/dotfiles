@@ -1,130 +1,28 @@
+if [ -z "$MY_OS" ]; then
+  MY_OS="$(uname -s)"
+fi
+
 # ===============================================================
 # Function definitions {{{
 # ===============================================================
-
-## Obselete in zsh ##
-# function open_func() {
-#   old_IFS=$IFS
-#   IFS='
-#   '
-#   echo hello there
-#   for k in "$@"; do
-#     ("$open_cmd" "$k" &>/dev/null &)
-#   done
-#   IFS=$old_IFS
-# }
-# # unset open_cmd
-
-function seas_func() {
-  serverBase='fischer@lnxsrv0'
-  local serverName
-  if [[ -z "$1" ]]; then
-    serverName='fischer@ugrad.seas.ucla.edu'
-  else
-    serverName="${serverBase}${1}".seas.ucla.edu
-  fi
-  ssh -X "${serverName}"
-}
-
-function play_album() {
-  # This will play an album using vlc media player if it is installed
-  type vlc &>/dev/null
-  if [[ $? != 0 ]]; then
-    echo "VLC media player must be installed" >&2
-    return 1
-  fi
-  (vlc "$@" &>/dev/null &)
-}
-
-# function wifi() {
-#   # Give control over the wifi radio
-#   arg=""
-#   case $1 in
-#     restart)
-#       ;&
-#     fix)
-#       ;&
-#     -r)
-#       arg="restart"
-#       ;;
-#     start)
-#       arg="start"
-#       ;;
-#     stop)
-#       arg="stop"
-#       ;;
-#   esac
-#   if [ ! -z "${arg}" ]; then
-#     sudo service network-manager "${arg}"
-#   fi
-# }
-
-function lst() {
-  if [ -z "$1" ]; then
-    ext="txt"
-  else
-    ext="$1"
-  fi
-  echo 'ls *.'"$ext"
-  ls *.$ext
-}
-
-function vimgrep() {
-  local args
-  if [ -z "$2" ]; then
-    args=("+vimgrep '$1'" '*')
-  else
-    args=("+vimgrep '$1'" "${@:2}")
-  fi
-  echo "vim" "${args}"
-  vim "${args}"
-}
 
 # }}}
 # ===============================================================
 # Linux specific {{{
 # ===============================================================
 
-if [[ "$(uname -s)" == "Linux" ]]; then
-  # open_cmd='xdg-open'
-  type chromium-browser &>/dev/null
-  if [[ $? == 0 ]]; then
-    alias browse='( chromium-browser &>/dev/null & )'
-    alias bro=browse
-  fi
-
-  # Copy/pasting
-  type xsel &>/dev/null
-  if [[ $? == 0 ]]; then
-    # We can copy/paste with commands
-    alias pbcopy='xsel --clipboard --input'
-    alias pbpaste='xsel --clipboard --output'
-  fi
-
+if [[ "$MY_OS" == "Linux" ]]; then
   # Shutdown/reboot (safely)
   alias turnoff='sudo shutdown -h now'
-  alias steward='sudo shutdown -h now'
-  alias fix_wifi='sudo service network-manager restart'
 
-  # Allow enabling the touchscreen
+  # Control the touchscreen
   alias touchscreen_on="xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 1"
   alias touchscreen_off="xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0"
 fi
 
-type tmux &>/dev/null
-if [[ $? == 0 ]]; then
+if type tmux &>/dev/null; then
   # Tmux specific aliases
-  tnews()
-  {
-    if [[ -z "$1" ]]; then
-      tmux new
-    else
-      tmux new -s "$1"
-    fi
-  }
   alias tls='tmux list-session'
-  alias tlw='tmux list-window'
-  alias tat='tmux attach -t'
   alias tkill='tmux kill-session -t'
   alias tswitch='tmux switch-client -t'
   function texec {
@@ -133,9 +31,18 @@ if [[ $? == 0 ]]; then
   }
 fi
 
-# if [[ "$(uname -s)" == "Darwin" ]]; then
-#   open_cmd='open'
-# fi
+# }}}
+# ===============================================================
+# Cygwin specific {{{
+# ===============================================================
+
+if [[ "$MY_OS" == "CYGWIN"* ]]; then
+  alias ls='ls --color=auto'
+  alias sudo='echo -e "\n\tNo sudo on cygwin!\n";'
+  alias root='cd /cygdrive/c/'
+  alias vi='/usr/bin/vim'
+  alias umount='echo "umount does not work properly on Cygwin"'
+fi
 
 # }}}
 # ===============================================================
@@ -185,7 +92,6 @@ alias v="$(sh -c 'which nvim || which vim || which vi')"
 alias n="npm"
 alias nt="npm test"
 alias ni="npm install"
-alias nr="npm run"
 
 # Add an "alert" alias for long running commands.  Use like so:
 # sleep 10; alert
@@ -213,9 +119,10 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias lss='ls -Ad .*'
 alias ltr='ls -tr --format=single-column'
 alias lltr='ls -ltr'
+
+alias fix_swaps='cd ~/.vim/tmp/'
 
 # }}}
 # ===============================================================

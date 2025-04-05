@@ -249,9 +249,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.shell_aliases ] && source ~/.shell_aliases
 
 alias reload='. ~/.zshrc && echo "reloading zshrc"'
+# open_command is defined in ohmyzsh
 alias open=open_command
 
-# Suffix aliases
+# Suffix aliases (zsh-specific)
 alias -s c="$EDITOR"
 alias -s cc="$EDITOR"
 alias -s cpp="$EDITOR"
@@ -263,7 +264,7 @@ alias -s vim="$EDITOR"
 alias -s xml="$EDITOR"
 alias -s gn=$EDITOR
 
-# Global aliases
+# Global aliases (zsh-specific)
 alias -g -- '-help'='-help 2>&1 | less -RFX; true'
 alias -g -- '--help'='--help 2>&1 | less -RFX; true'
 alias -g -- '--helpfull'='--helpfull 2>&1 | less -RFX; true'

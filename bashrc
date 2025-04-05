@@ -6,6 +6,10 @@ case $- in
     *) return;;
 esac
 
+if [ -z "$MY_OS" ]; then
+  MY_OS="$(uname -s)"
+fi
+
 # ===============================================================
 # Shell options (shopt) {{{
 # ===============================================================
@@ -109,24 +113,28 @@ alias reload='. ~/.bashrc && echo "reloading bashrc"'
 
 # }}}
 # ===============================================================
+# Cygwin specific {{{
+# ===============================================================
+
+if [[ "$MY_OS" == "CYGWIN"* ]]; then
+  # Only necessary to define in bash. Zsh has its own definition.
+  alias open='cygstart'
+fi
+
+# }}}
+# ===============================================================
+# Linux specific {{{
+# ===============================================================
+
+# Don't need to define 'open' because on modern Ubuntu this points to
+# 'xdg-open'. Nothing else to define here.
+
+# }}}
+# ===============================================================
 # Environmental variables {{{
 # ===============================================================
 
 # export TERM='xterm-256color' # Necessary for tmux
-
-# }}}
-# ===============================================================
-# Cygwin specific {{{
-# ===============================================================
-
-if [ "$(uname -s)" == "CYGWIN_NT-6.1" ]; then
-  alias ls='ls --color=auto'
-  alias sudo='echo -e "\n\tNo sudo on cygwin!\n";'
-  alias root='cd /cygdrive/c/'
-  alias vi='/usr/bin/vim'
-  alias umount='echo "umount does not work properly on Cygwin"'
-  alias open='cygstart'
-fi
 
 setPS1 # now we set the prompt
 
