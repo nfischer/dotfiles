@@ -45,7 +45,7 @@ Consider the following pip packages:
 
 Consider the following npm packages:
  - npm install -g diff-so-fancy
- - npm install -g clipbaord-cli
+ - npm install -g clipboard-cli
 
 Install npm packages in ~/bin/
  - cd ~/bin && npm install
