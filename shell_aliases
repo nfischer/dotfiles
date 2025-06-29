@@ -65,6 +65,7 @@ alias gh='git head'
 alias glg='git log --pretty=commitdate --stat'
 alias grc='git rc'
 alias gs='git status -sb'
+alias gd='git diff'
 
 # More flexible version of OMZ's git_main_branch. Extend this with:
 # GIT_MAIN_BRANCHES=(my-cool-branch "${GIT_MAIN_BRANCHES[@]}")
