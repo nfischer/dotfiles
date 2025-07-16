@@ -37,9 +37,13 @@ class DateTimeHelper:
 
     @classmethod
     def from_exif(cls, exif_string):
+        template_str = '%Y:%m:%d %H:%M:%S'
         if '.' in exif_string:
-            return datetime.datetime.strptime(exif_string, '%Y:%m:%d %H:%M:%S.%f')
-        return datetime.datetime.strptime(exif_string, '%Y:%m:%d %H:%M:%S')
+            template_str += '.%f'
+        has_timezone = re.compile(r'.*[+\-]\d\d:\d\d')
+        if has_timezone.match(exif_string):
+            template_str += '%z'
+        return datetime.datetime.strptime(exif_string, template_str)
 
     @classmethod
     def to_unix_timestamp(cls, my_datetime):
@@ -48,17 +52,19 @@ class DateTimeHelper:
 
     @classmethod
     def to_exif(cls, my_datetime):
+        template_str = '%Y:%m:%d %H:%M:%S'
         if my_datetime.microsecond:
-            return my_datetime.strftime('%Y:%m:%d %H:%M:%S.%f')
-        return my_datetime.strftime('%Y:%m:%d %H:%M:%S')
-
+            template_str += '.%f'
+        # TODO(nfischer): for some reason the timezone field doesn't seem to
+        # work correctly.
+        template_str += '%:z'
+        return my_datetime.strftime(template_str)
 
 
 def SetTimestamp(fname, my_datetime):
     exif_date = DateTimeHelper.to_exif(my_datetime)
 
-    ExifTool(['-DateTimeOriginal=' + exif_date, fname])
-    ExifTool(['-CreateDate=' + exif_date, fname])
+    ExifTool(['-DateTimeOriginal=' + exif_date, '-CreateDate=' + exif_date, fname])
 
     unix_timestamp = DateTimeHelper.to_unix_timestamp(my_datetime)
     os.utime(fname, (unix_timestamp, unix_timestamp))
@@ -79,6 +85,18 @@ def main():
             default=None,
             help=('How many hours to shift by. Can be in the format of '
                   '+1 or -1.'))
+    group.add_argument(
+            '--timezone',
+            type=str,
+            default=None,
+            help=('Force an exact timezone. This is useful if someone has the '
+                  'correct time but forgot to switch from standard time to '
+                  'daylight time.'))
+    group.add_argument(
+            '--fixtimestamp',
+            action='store_true',
+            help=('Fix the file timestamp. Make it match the CreateDate from '
+                  'the exif metadata.'))
     parser.add_argument(
             'filenames',
             type=os.path.realpath,
@@ -104,6 +122,27 @@ def main():
                 raise Exception('Unable to parse timeshift. It needs to start '
                                 "with a '+' or a '-' character, ex. '+2'.")
             print(f'Shifting time: {original_date} -> {new_date}')
+            SetTimestamp(fname, new_date)
+        elif args.fixtimestamp:
+            metadata = ExifTool([fname])
+            exif_date = DateTimeHelper.from_exif(metadata['Create Date'])
+            print(f'Setting timestamp to match exif data: {exif_date}')
+            SetTimestamp(fname, exif_date)
+        elif args.timezone:
+            metadata = ExifTool([fname])
+            original_date = DateTimeHelper.from_exif(metadata['Create Date'])
+            hours = int(args.timezone.split(':')[0])
+            minutes = int(args.timezone.split(':')[1])
+            new_date = datetime.datetime(
+                    year=original_date.year,
+                    month=original_date.month,
+                    day=original_date.day,
+                    hour=original_date.hour,
+                    minute=original_date.minute,
+                    second=original_date.second,
+                    microsecond=original_date.microsecond,
+                    tzinfo=datetime.timezone(datetime.timedelta(hours=hours, minutes=minutes)))
+            print(f'Changing only the timezone: {original_date} -> {new_date}')
             SetTimestamp(fname, new_date)
         else:
             raise Exception('Unimplemented')
