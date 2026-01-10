@@ -111,6 +111,12 @@ def main():
             help=('Fix the file timestamp. Make it match the CreateDate from '
                   'the exif metadata.'))
     group.add_argument(
+            '--printtimestamp',
+            action='store_true',
+            help=('Print the file timestamp. This prefers the exif metadata '
+                  'CreateDate, but it will fall back to other timestamp '
+                  'values.'))
+    group.add_argument(
             '--crawl',
             action='store_true',
             help=(f'Crawl over all image files in the current folder. If they '
@@ -190,6 +196,16 @@ def main():
             exif_date = DateTimeHelper.from_exif(metadata['Create Date'])
             print(f'Setting timestamp to match exif data: {exif_date}')
             SetTimestamp(fname, exif_date)
+        elif args.printtimestamp:
+            metadata = ExifTool([fname])
+            exif_date = DateTimeHelper.from_exif(metadata.get('Create Date', None))
+            exif_date2 = DateTimeHelper.from_exif(metadata.get('Date Time Original', None))
+            if exif_date:
+                print(f'{exif_date} (from exif CreateDate metadata)')
+            else:
+                print(f'{exif_date2} (from exif DateTimeOriginal metadata)')
+            # TODO(nfischer): consider other fallbacks, like the os.utime value
+            # or the exif DateTimeOriginal.
         elif args.timezone:
             metadata = ExifTool([fname])
             original_date = DateTimeHelper.from_exif(metadata['Create Date'])
