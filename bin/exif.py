@@ -48,6 +48,8 @@ class DateTimeHelper:
 
     @classmethod
     def from_exif(cls, exif_string):
+        if exif_string is None:
+            return None
         template_str = '%Y:%m:%d %H:%M:%S'
         if '.' in exif_string:
             template_str += '.%f'
@@ -162,6 +164,9 @@ def main():
         raise Exception('Did not receive a list of file names')
 
     for fname in args.filenames:
+        if not os.path.exists(fname):
+            print('Unable to find any files matching ' + fname)
+            continue
         if args.date:
             print(f'Setting exact time: {args.date}')
             my_datetime = DateTimeHelper.from_str(args.date)
