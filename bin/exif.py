@@ -6,9 +6,20 @@ import os
 import re
 import subprocess
 import time
+import readline
 
 
 exif_metadata_pattern = re.compile(r'^([^:]*)\s*: (.*)$')
+
+IMAGE_VIEWER = 'eog'
+
+
+def rlinput(prompt, prefill=''):
+    readline.set_startup_hook(lambda: readline.insert_text(prefill))
+    try:
+        return input(prompt)
+    finally:
+        readline.set_startup_hook()
 
 
 def ExifTool(exifArgs):
@@ -97,12 +108,58 @@ def main():
             action='store_true',
             help=('Fix the file timestamp. Make it match the CreateDate from '
                   'the exif metadata.'))
+    group.add_argument(
+            '--crawl',
+            action='store_true',
+            help=(f'Crawl over all image files in the current folder. If they '
+                  f'have a metadata timestamp, skip the file. If the file is '
+                  f'missing a metadata timestamp, then it opens the file '
+                  f'(using "{IMAGE_VIEWER}") and prompts the user to input a '
+                  f'new proper timestamp.'))
     parser.add_argument(
             'filenames',
             type=os.path.realpath,
             nargs='*',
             help=('The image files to operate on.'))
     args = parser.parse_args()
+
+    if args.crawl:
+        if args.filenames:
+            raise Exception('The --crawl option does not support providing any file names. This automatically crawls all image files in this folder.')
+        print('Timestamp format: YYYY-MM-DD HH:MM:SS')
+        print('-------------------------------------')
+        previous_timestamp = ''
+        for fname in os.listdir('.'):
+            if not os.path.isfile(fname):
+                continue
+            if '.' not in fname:
+                continue
+            extension = fname.split('.')[-1]
+            supported_filetypes = set(['HEIC', 'JPG', 'JPEG', 'PNG', 'MOV'])
+            if extension.upper() not in supported_filetypes:
+                continue
+            metadata = ExifTool([fname])
+            exif_date = DateTimeHelper.from_exif(metadata.get('Create Date', None))
+            exif_date2 = DateTimeHelper.from_exif(metadata.get('Date Time Original', None))
+            if not exif_date and not exif_date2:
+                print(f'{fname} is missing an EXIF timestamp.')
+                proc = subprocess.Popen([IMAGE_VIEWER, fname], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                new_timestamp = rlinput('Give this a new timestamp (or press Enter to skip): ', prefill=previous_timestamp)
+                previous_timestamp = new_timestamp
+                if new_timestamp:
+                    print(f'Setting exact time: {new_timestamp}')
+                    my_datetime = DateTimeHelper.from_str(new_timestamp)
+                    SetTimestamp(fname, my_datetime)
+                else:
+                    print(f'Skipping {fname}')
+                if proc.poll() is None:
+                    proc.terminate()
+
+
+        return
+
+    if not args.filenames:
+        raise Exception('Did not receive a list of file names')
 
     for fname in args.filenames:
         if args.date:
