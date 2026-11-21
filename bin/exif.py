@@ -32,7 +32,7 @@ def ExifTool(exifArgs):
         for line in output.splitlines():
             m = exif_metadata_pattern.match(line)
             if not m:
-                print('Unable to parse line')
+                print(f'Unable to parse line: {line}')
                 continue
             key = m.group(1).strip()
             value = m.group(2).strip()
@@ -143,7 +143,7 @@ def main():
             if '.' not in fname:
                 continue
             extension = fname.split('.')[-1]
-            supported_filetypes = set(['HEIC', 'JPG', 'JPEG', 'PNG', 'MOV'])
+            supported_filetypes = set(['HEIC', 'JPG', 'JPEG', 'PNG', 'MOV', 'MP4'])
             if extension.upper() not in supported_filetypes:
                 continue
             metadata = ExifTool([fname])
