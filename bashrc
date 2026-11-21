@@ -112,6 +112,20 @@ alias gca='git commit --verbose --all'
 alias ggpull='git pull origin "$(git_current_branch)"'
 alias ggpush='git push origin "$(git_current_branch)"'
 
+function __git_prompt_git() {
+  GIT_OPTIONAL_LOCKS=0 command git "$@"
+}
+git_current_branch() {
+  local ref
+  ref="$(__git_prompt_git symbolic-ref --quiet HEAD 2> /dev/null)"
+  local ret="$?"
+  if [[ "$ret" != 0 ]]; then
+    [[ "$ret" == 128 ]] && return
+    ref="$(__git_prompt_git rev-parse --short HEAD 2> /dev/null)"  || return
+  fi
+  echo "${ref#refs/heads/}"
+}
+
 alias -- -='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'
