@@ -104,6 +104,14 @@ fi
 
 alias reload='. ~/.bashrc && echo "reloading bashrc"'
 
+# Git aliases
+alias g='git'
+alias ga='git add'
+alias gc='git commit --verbose'
+alias gca='git commit --verbose --all'
+alias ggpull='git pull origin "$(git_current_branch)"'
+alias ggpush='git push origin "$(git_current_branch)"'
+
 alias -- -='cd -'
 alias ..='cd ..'
 alias ...='cd ../..'

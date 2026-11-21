@@ -67,6 +67,8 @@ alias grc='git rc'
 alias gs='git status -sb'
 alias gd='git diff'
 
+alias cow='cp --reflink=always'
+
 # More flexible version of OMZ's git_main_branch. Extend this with:
 # GIT_MAIN_BRANCHES=(my-cool-branch "${GIT_MAIN_BRANCHES[@]}")
 declare -a GIT_MAIN_BRANCHES=(
