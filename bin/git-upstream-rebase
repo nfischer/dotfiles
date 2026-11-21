@@ -1,0 +1,26 @@
+#!/bin/bash
+
+declare -a GIT_MAIN_BRANCHES=(
+  main
+  master
+)
+git_main_branch() {
+  local _branch
+  for _branch in "${GIT_MAIN_BRANCHES[@]}"; do
+    if git show-ref --verify --quiet "refs/heads/${_branch}"; then
+      echo "${_branch}"
+      return
+    fi
+  done
+  echo "${_branch}"
+}
+main_branch="$(git_main_branch)"
+
+echo "Updating your fork (origin) to be based on top of original project (upstream)"
+set -e
+set -x
+
+git fetch upstream
+git checkout "${main_branch}"
+git rebase upstream/"${main_branch}"
+git push origin "${main_branch}"
