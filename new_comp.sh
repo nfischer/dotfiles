@@ -9,7 +9,7 @@ cd "$DIR"
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh > install-nvm.sh
 
 # Install zplug
-curl -sL zplug.sh/installer  > install-zplug.zsh
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh > install-zplug.zsh
 
 TMUX_PLUGIN_DIR="$HOME/.tmux/plugins/tpm"
 cat > install-tmux-plugin-manager.sh <<END
